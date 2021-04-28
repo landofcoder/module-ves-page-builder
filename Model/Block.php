@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -26,7 +26,7 @@ use Magento\Customer\Model\Session as CustomerSession;
  * PageBuilder Model
  */
 class Block extends \Magento\Framework\Model\AbstractModel
-{   
+{
     /**
      * Cunstruction regular expression
      */
@@ -79,17 +79,17 @@ class Block extends \Magento\Framework\Model\AbstractModel
 
 
     /**
-     * @param \Magento\Framework\Model\Context                          $context                  
-     * @param \Magento\Framework\Registry                               $registry                 
-     * @param \Magento\Store\Model\StoreManagerInterface                $storeManager             
-     * @param \Ves\PageBuilder\Model\ResourceModel\Block|null                      $resource                 
-     * @param \Ves\PageBuilder\Model\ResourceModel\Block\Collection|null           $resourceCollection       
-     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory 
-     * @param \Magento\Store\Model\StoreManagerInterface                $storeManager    
-     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface      $localeDate             
-     * @param \Magento\Framework\UrlInterface                           $url                      
-     * @param \Ves\PageBuilder\Helper\Data                             $_blockHelper              
-     * @param array                                                     $data                     
+     * @param \Magento\Framework\Model\Context                          $context
+     * @param \Magento\Framework\Registry                               $registry
+     * @param \Magento\Store\Model\StoreManagerInterface                $storeManager
+     * @param \Ves\PageBuilder\Model\ResourceModel\Block|null                      $resource
+     * @param \Ves\PageBuilder\Model\ResourceModel\Block\Collection|null           $resourceCollection
+     * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
+     * @param \Magento\Store\Model\StoreManagerInterface                $storeManager
+     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface      $localeDate
+     * @param \Magento\Framework\UrlInterface                           $url
+     * @param \Ves\PageBuilder\Helper\Data                             $_blockHelper
+     * @param array                                                     $data
      */
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -225,12 +225,12 @@ class Block extends \Magento\Framework\Model\AbstractModel
                                 ->addFieldToFilter('show_from', array('or'=> array(
                                     0 => array('date' => true, 'lt' => $todayDate),
                                     1 => array('is' => new \Zend_Db_Expr('null')),
-                                    2 => array('eq' => ''))
+                                    2 => array('eq' => '0000-00-00 00:00:00'))
                                 ), 'left')
                                 ->addFieldToFilter('show_to', array('or'=> array(
                                     0 => array('date' => true, 'gteq' => $todayDate),
                                     1 => array('is' => new \Zend_Db_Expr('null')),
-                                    2 => array('eq' => ''))
+                                    2 => array('eq' => '0000-00-00 00:00:00'))
                                 ), 'left');
 
             if($is_page) {
@@ -238,7 +238,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                 $collection->addFieldToFilter('block_type', "page");
             }
             $block_entity = $collection->getFirstItem();
-                    
+
             if($block_entity) {
                 $this->getResource()->walkAfterLoad($block_entity);
                 $customer_group = $block_entity->getCustomerGroup();
@@ -249,7 +249,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                     return $block_entity;
                 }
             }
-            
+
         }
         return null;
     }
@@ -277,7 +277,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                                 ->addFieldToFilter('show_to', array('or'=> array(
                                     0 => array('date' => true, 'gteq' => $todayDate),
                                     1 => array('is' => new \Zend_Db_Expr('null')),
-                                    2 => array('eq' => ''))
+                                    2 => array('eq' => '0000-00-00 00:00:00'))
                                 ), 'left');
 
             if($is_page) {
@@ -285,7 +285,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                 $collection->addFieldToFilter('block_type', "page");
             }
             $block_entity = $collection->getFirstItem();
-                    
+
             if($block_entity) {
                 $this->getResource()->walkAfterLoad($block_entity);
                 $customer_group = $block_entity->getCustomerGroup();
@@ -296,7 +296,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                     return $block_entity;
                 }
             }
-            
+
         }
         return null;
     }
@@ -313,7 +313,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                     );
 
             $todayDateTime = strtotime($todayDate);
-            
+
             $date_to = $block_profile->getShowTo();
             if($date_to) {
                 $date_to = strtotime($date_to);
@@ -374,7 +374,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
         $checked = true;
         if($block_profile) {
             if($block_profile->getStatus() != "1") {
-                $checked = false;   
+                $checked = false;
             } else {
                 $customer_group_id = (int)$this->customerSession->getCustomerGroupId();
                 $customer_group =  $block_profile->getCustomerGroup();
@@ -396,15 +396,15 @@ class Block extends \Magento\Framework\Model\AbstractModel
 
                         $todayDateTime = strtotime($todayDate);
 
-                        
+
 
                         if($date_from) {
                             $date_from = strtotime($date_from);
                         } else {
                             $date_from = 0;
                         }
-                        
-                        
+
+
                         if($date_to) {
                             $date_to = strtotime($date_to);
                         } else {
@@ -416,7 +416,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                         }
                     }
                 }
-                
+
             }
         }
         return $checked;
@@ -471,7 +471,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
             $block = $model->load(0);
         }
         return $block;
-        
+
     }
 
     public function loadCMSPage($field_value, $field_name = "identifier", $stores = array(), $withAdmin = true) {
@@ -523,7 +523,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
             $page = $model->load(0);
         }
         return $page;
-        
+
     }
 
     public function getBanner() {
@@ -575,7 +575,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
 
 
     public function getWidgetInfo($widget_type, $shortcode ) {
-        $widget = [ 
+        $widget = [
                     "title"         => "",
                     "description"   => "",
                     "icon"          => "",
@@ -702,7 +702,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                     if(is_string($html) && $this->isBase64Encoded($html)) {
                         $html = base64_decode($html);
                     }
-                    
+
                     $html = strip_tags($html,"<a><b><strong><span><ul><li><i><u>");
                     $html = trim($html);
 
@@ -713,7 +713,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                default:
                    # code...
                    break;
-        }           
+        }
         return $widget;
     }
     public function isBase64Encoded($data) {
@@ -734,7 +734,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
         if (0 < preg_match('/((?![[:graph:]])(?!\s)(?!\p{L}))./', $decoded, $matched)) return false;
         if (!preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $data)) return false;
 
-        
+
         return false;
     }
 }
