@@ -146,7 +146,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
 
         $fieldset->addField(
             'shortcode',
-            'hidden',
+            'text',
             [
                 'name' => 'shortcode',
                 'label' => __('Shortcode'),

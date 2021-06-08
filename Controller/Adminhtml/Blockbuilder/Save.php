@@ -138,7 +138,7 @@ class Save extends \Magento\Backend\App\Action
                 $post_data['params'] = trim($post_data['params']);
 
                 //$post_data['settings'] = (isset($post_data['settings']) && $post_data['settings'])?serialize($post_data['settings']):"";
-                $post_data['shortcode'] = $this->_viewHelper->getShortCode("Ves\PageBuilder\Block\Widget\Builder", $this->getRequest()->getParam("block_id"), $settings);
+                $post_data['shortcode'] = $this->_viewHelper->getShortCode("Ves\PageBuilder\Block\Widget\Builder", $id, $settings);
 
                 if($this->getRequest()->getParam("block_id")) {
                     $post_data['modified'] = date( 'Y-m-d H:i:s' );
@@ -151,6 +151,12 @@ class Save extends \Magento\Backend\App\Action
 
             try {
                 $model->save();
+                if(!$this->getRequest()->getParam("block_id")){
+                    $shortcode = $this->_viewHelper->getShortCode("Ves\PageBuilder\Block\Widget\Builder", $model->getId(), $settings);
+                    $model->setData("shortcode", $shortcode);
+                    $model->save();
+                }
+
                 if ($this->getRequest()->getParam("duplicate")) {
                     $this->messageManager->addSuccess(__('Profile was successfully duplicated.'));
                 } else {

@@ -42,10 +42,12 @@ $row['inattrs'] .= ' data-parallax-percent="'.(isset($row['inp_percent'])?$row['
 <div class="ves-container <?php echo $offcanvas_class; ?> <?php if ( isset($row['parallax'])&& $row['parallax'] ) { ?> ves-parallax <?php } ?> <?php if ($row['level']>=1 && isset($row['wcls'])) echo $row['wcls'];  ?>" <?php echo $row['attrs']; ?> <?php echo $custom_css; ?>>
 <?php if( $row['level'] == 1 && (!isset($is_container) || (isset($is_container) && $is_container == 1))) : ?>
 <div class="<?php echo (isset($row['fullwidth']) && $row['fullwidth']==1)?'':'container';?> ">
-<div class="ves-inner <?php if ( isset($row['inparallax'])&& $row['inparallax'] ) { ?> ves-parallax <?php } ?> <?php if (isset($row['cls'])) echo $row['cls'];  ?>" <?php echo $row['inattrs']; ?> <?php echo $custom_inner_css; ?>>
+	<!--
+<div class="ves-inner <?php if ( isset($row['inparallax'])&& $row['inparallax'] ) { ?> ves-parallax <?php } ?> <?php if (isset($row['cls'])) echo $row['cls'];  ?>" <?php echo $row['inattrs']; ?> <?php echo $custom_inner_css; ?>>-->
 <?php else: ?>
 <div<?php echo $row['iscontainer']?' class="container"':'';?>>
-<div class="ves-inner <?php if ( isset($row['inparallax'])&& $row['inparallax'] ) { ?> ves-parallax <?php } ?> <?php if (isset($row['cls'])) echo $row['cls'];  ?>" <?php echo $row['inattrs']; ?> <?php echo $custom_inner_css; ?>>
+<!--
+<div class="ves-inner <?php if ( isset($row['inparallax'])&& $row['inparallax'] ) { ?> ves-parallax <?php } ?> <?php if (isset($row['cls'])) echo $row['cls'];  ?>" <?php echo $row['inattrs']; ?> <?php echo $custom_inner_css; ?>>-->
 <?php endif; ?>
 <?php $custom_css = $custom_inner_css = ""; ?>
 <?php } ?>
@@ -71,7 +73,7 @@ if($row['level'] == 1 && isset($row['offcanvas']) && $row['offcanvas']) {
 //Setting sidebar-offcanvas
 ?>
 <div class="row row-level-<?php echo $row['level']; ?> <?php echo $row['nogutters']; ?> <?php if (isset($row['sfxcls'])&&$row['sfxcls']) echo 'row-'.$row['sfxcls']; ?>" <?php echo $custom_css; ?>>
-<div class="row-inner clearfix <?php if ($row['level']>=1 && isset($row['incls'])) echo $row['incls'];  ?>" <?php echo $custom_inner_css;?>>
+<!--<div class="row-inner clearfix <?php if ($row['level']>=1 && isset($row['incls'])) echo $row['incls'];  ?>" <?php echo $custom_inner_css;?>>-->
 <?php foreach( $row['cols'] as $col ) { ?>
 <?php 
 //Setting sidebar-offcanvas
@@ -94,7 +96,7 @@ $col['css'] = isset($col['css'])?';'.str_replace("\n","", $col['css']):'';
 $custom_col_css = $this->getColStyle($col);
 $custom_col_css = !empty($custom_col_css)?' style="'.implode(";", $custom_col_css).'"':'';	
 ?>
-<div <?php echo $offcol_id; ?> class="<?php echo $offcol_class; ?> col-lg-<?php echo $col['lgcol']; ?> col-md-<?php echo $col['mdcol'];?> col-sm-<?php echo $col['smcol'];?> col-xs-<?php echo $col['xscol'];?> <?php echo isset($col['cls'])?$col['cls']:'';?> <?php if (isset($col['sfxcls'])&&$col['sfxcls']) echo 'col-'.$col['sfxcls'];  ?>" <?php echo $col['css']?'style="'.$col['css'].'"':'';?> <?php echo isset($col['attrs'])?$col['attrs']:''; ?>>
+<div <?php echo $offcol_id; ?> class="<?php echo $offcol_class; ?> col col-lg-<?php echo $col['lgcol']; ?> col-md-<?php echo $col['mdcol'];?> col-sm-<?php echo $col['smcol'];?> col-<?php echo $col['xscol'];?> col-xs-<?php echo $col['xscol'];?> <?php echo isset($col['cls'])?$col['cls']:'';?> <?php if (isset($col['sfxcls'])&&$col['sfxcls']) echo 'col-'.$col['sfxcls'];  ?>" <?php echo $col['css']?'style="'.$col['css'].'"':'';?> <?php echo isset($col['attrs'])?$col['attrs']:''; ?>>
 
 <?php if ($row['level']==2): ?>
 <?php if (isset($row['parallax'])&&$row['parallax']): ?>
@@ -188,11 +190,11 @@ require( "page_container.phtml" );
 <?php endif; ?>
 </div>
 <?php } ?>
-</div>
+<!--</div>-->
 </div>
 <?php $level = ($level >=2)?1:$level; ?>
 <?php if ($row['level']==1 || $row['level'] >= 2 ) { ?>
-</div>
+<!--</div>-->
 </div>
 </div>
 <?php } ?>
