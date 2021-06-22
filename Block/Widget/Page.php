@@ -160,7 +160,6 @@ class Page extends AbstractWidget
         }
 
         $conditions = $code.".".$block_id.".".$device;
-
         return [
         'VES_PAGEBUILDER_BUILDER_WIDGET',
         $this->_storeManager->getStore()->getId(),
@@ -207,7 +206,6 @@ class Page extends AbstractWidget
         if($this->_banner) {
             $params = $this->_banner->getParams();
             $params = \Zend_Json::decode($params);
-
             $block_widgets = $this->_banner->getWidgets();
 
             $settings = $this->_banner->getSettings();
@@ -222,7 +220,6 @@ class Page extends AbstractWidget
             $this->assign("show_title", $this->getConfig("show_title"));
             $this->assign("disable_wrapper", $this->getConfig("disable_wrapper"));
             $this->assign("heading", $this->_banner->getTitle());
-
             if(1 == $this->_banner->getContainer()) {
                 $this->setTemplate("pagebuilder/default_container.phtml");
             }
@@ -258,7 +255,6 @@ class Page extends AbstractWidget
         } else {
             $html = parent::_toHtml();
         }
-
         if($this->_blockHelper->getConfig('general/minify_html')) {
             $html = $this->_blockHelper->minify_html( $html );
         }

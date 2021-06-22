@@ -15,7 +15,7 @@ if($row_phtml) {
 <?php if($disable_wrapper){ //Disable block wrapper ?>
 <?php require $row_phtml; ?>
 <?php } else { ?>
-<div class="block vesbuilder-block <?php echo $block_id." ".$class; ?>">
+<div class="vesbuilder block vesbuilder-block <?php echo $block_id." ".$class; ?>">
 	<?php if( trim($heading) && $show_title ){ ?>
 	<div class="block-title"><span><?php echo $heading; ?></span></div>
 	<?php } ?>
