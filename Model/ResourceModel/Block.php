@@ -19,6 +19,7 @@
  * @license    http://www.venustheme.com/LICENSE-1.0.html
  */
 namespace Ves\PageBuilder\Model\ResourceModel;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 
 class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 {
@@ -47,12 +48,21 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
     protected $_objectManager;
 
     /**
+     * @var ProductRepositoryInterface
+     */
+    protected $_productRepository;
+
+    protected $_action;
+
+    /**
      * Construct
      *
      * @param \Magento\Framework\Model\ResourceModel\Db\Context $context
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
+     * @param ProductRepositoryInterface $productRepository
+     * @param \Magento\Catalog\Model\Product\Action $productAction
      * @param string $connectionName
      */
     public function __construct(
@@ -61,6 +71,8 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\ObjectManagerInterface $objectManager,
+        ProductRepositoryInterface $productRepository,
+        \Magento\Catalog\Model\Product\Action $productAction,
         $connectionName = null
         ) {
         parent::__construct($context, $connectionName);
@@ -68,6 +80,8 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $this->_storeManager = $storeManager;
         $this->dateTime = $dateTime;
         $this->_objectManager = $objectManager;
+        $this->_productRepository = $productRepository;
+        $this->_action = $productAction;
     }
 
     /**
@@ -92,6 +106,7 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
 
         $this->getConnection()->delete($this->getTable('ves_blockbuilder_cms'), $condition);
         $this->getConnection()->delete($this->getTable('ves_blockbuilder_page'), $condition);
+        $this->getConnection()->delete($this->getTable('ves_blockbuilder_product'), $condition);
         //delete generated template
         $cms_page_template_alias = "ves_template_".$object->getAlias();
         $cms_element_template_alias = "ves_element_".$object->getAlias();
@@ -227,10 +242,100 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
             if ($data) {
                 $this->getConnection()->insertMultiple($table, $data);
             }
-            
+        }
+        // Posts Related
+        if(null !== ($object->getData('products'))){
+            $table = $this->getTable('ves_blockbuilder_product');
+            $where = ['block_id = ?' => (int)$object->getId()];
+            $this->getConnection()->delete($table, $where);
+
+            if($quetionProducts = $object->getData('products')){
+                $where = ['block_id = ?' => (int)$object->getId()];
+                $this->getConnection()->delete($table, $where);
+                $data = [];
+                foreach ($quetionProducts as $k => $_post) {
+                    $data[] = [
+                    'block_id' => (int)$object->getId(),
+                    'product_id' => $k,
+                    'position' => isset($_post['product_position'])?(int)$_post['product_position']:0
+                    ];
+
+                    //update product attributes
+                    try{
+                        $attributes = null;
+                        $_product = $this->_productRepository->getById($k);
+                        $_product_element_builder = $_product->getData('element_builder');
+                        if($_product_element_builder !== $object->getId()){
+                            $attributes = ['element_builder' => $object->getId()];
+                        }
+                        if($attributes){
+                            if($insert){
+                                foreach ($insert as $storeId) {
+                                    $this->_action->updateAttributes( [$k], $attributes,  $storeId);
+                                }
+                            }else {
+                                $this->_action->updateAttributes( [$k], $attributes,  0);
+                            }
+                        }
+                    }catch(Exception $e){
+                        //
+                    }
+                }
+                $this->getConnection()->insertMultiple($table, $data);
+            }
         }
 
         return parent::_afterSave($object);
+    }
+
+    /**
+     * @param $blockId
+     * @return array
+     */
+    public function getProduct($blockId) {
+        $connection = $this->getConnection();
+        $select = $connection->select()
+            ->from($this->getTable('ves_blockbuilder_product'))
+            ->where(
+                'block_id = '.(int)$blockId
+            );
+        return $connection->fetchAll($select);
+    }
+
+    /**
+     * @param AbstractModel $object
+     * @param int $block_id
+     * @return bool
+     */
+    public function saveProduct(AbstractModel $object, $block_id = 0) {
+        if($object->getId() && $product_id) {
+            $table = $this->getTable('ves_blockbuilder_product');
+
+            $select = $this->getConnection()->select()->from(
+            ['cp' => $table]
+            )->where(
+            'cp.block_id = ?',
+            (int)$object->getId()
+            )->where(
+            'cp.product_id = (?)',
+            (int)$product_id
+            )->limit(1);
+
+            $row_product = $this->getConnection()->fetchAll($select);
+
+            if(!$row_product) { // check if not exists product, then insert it into database
+                $data = [];
+                $data[] = [
+                    'block_id' => (int)$object->getId(),
+                    'product_id' => (int)$product_id,
+                    'position' => 0
+                    ];
+
+                $this->getConnection()->insertMultiple($table, $data);
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -306,6 +411,16 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                 }
             }
             $object->setData("widgets", $data_widgets);
+        }
+
+        if ($id = $object->getId()) {
+            $products = $this->getProduct($id);
+            $productIds = [];
+            foreach ($products as $key => $product) {
+                $productIds[] = $product['product_id'];
+            }
+
+            $object->setData('productIds', $productIds);
         }
 
         return parent::_afterLoad($object);

@@ -65,7 +65,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
                     'Widget Shortcode'
                 )->addColumn(
                     'created',
-                    \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+                    Table::TYPE_TIMESTAMP,
                     null,
                     [],
                     'Row Creation Time'
@@ -82,13 +82,13 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 // Declare data
                 $columns = [
                     'image' => [
-                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'type' => Table::TYPE_TEXT,
                         'nullable' => true,
                         'comment' => 'image URL',
                         'length'  => 150
                     ],
                     'description' => [
-                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'type' => Table::TYPE_TEXT,
                         'nullable' => true,
                         'comment' => 'Block Description',
                         'length'  => '64k'
@@ -118,7 +118,7 @@ class UpgradeSchema implements UpgradeSchemaInterface
             }
             $columns = [
                 'layout_update_selected' => [
-                    'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                    'type' => Table::TYPE_TEXT,
                     'nullable' => true,
                     'comment' => 'Page Custom Layout File',
                     'length'  => 150
@@ -128,6 +128,23 @@ class UpgradeSchema implements UpgradeSchemaInterface
             foreach ($columns as $name => $definition) {
                 $connection->addColumn($tableNameBlock, $name, $definition);
             }
+        }
+
+        if (version_compare($context->getVersion(), '1.0.2', '<')) {
+            /**
+             * Create table 'ves_blockbuilder_product'
+             */
+            $installer->getConnection()->addColumn(
+                $installer->getTable('ves_blockbuilder_product'),
+                'position',
+                [
+                    'type' => Table::TYPE_INTEGER,
+                    'nullable' => true,
+                    'default' => 0,
+                    'comment' => 'position',
+                    'after' => 'store_id'
+                ]
+            );
         }
         $installer->endSetup();
     }

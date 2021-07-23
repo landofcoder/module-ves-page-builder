@@ -35,4 +35,26 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         $this->setDestElementId('edit_form');
         $this->setTitle(__('Element Information'));
     }
+
+    /**
+     * @return $this
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     */
+    protected function _prepareLayout()
+    {
+        parent::_prepareLayout();
+
+        $this->addTab(
+                'products',
+                [
+                    'label' => __('Products'),
+                    'url' => $this->getUrl('vespagebuilder/*/products', ['_current' => true]),
+                    'class' => 'ajax'
+                ]
+            );
+
+        return $this;
+    }
 }

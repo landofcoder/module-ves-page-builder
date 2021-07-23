@@ -40,19 +40,27 @@ class Save extends \Magento\Backend\App\Action
     protected $_viewHelper;
 
     /**
+     * @var \Magento\Backend\Helper\Js
+     */
+    protected $_jsHelper;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Backend\Helper\Js $jsHelper
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context, 
         /*\Magento\Framework\ObjectManagerInterface $objectManager,*/
         \Ves\PageBuilder\Helper\Data $dataHelper,
-        \Magento\Framework\Filesystem $filesystem
+        \Magento\Framework\Filesystem $filesystem,
+        \Magento\Backend\Helper\Js $jsHelper
         ) {
         /*$this->_objectManager = $objectManager;*/
         $this->_fileSystem = $filesystem;
         $this->_viewHelper = $dataHelper;
+        $this->_jsHelper = $jsHelper;
         parent::__construct($context);
     }
 
@@ -144,6 +152,13 @@ class Save extends \Magento\Backend\App\Action
                     $post_data['modified'] = date( 'Y-m-d H:i:s' );
                 } else {
                     $post_data['created'] = date( 'Y-m-d H:i:s' );
+                }
+                
+                $links = $this->getRequest()->getPost('links');
+                $links = is_array($links) ? $links : [];
+                if(!empty($links) && isset($links['related'])){
+                    $products = $this->_jsHelper->decodeGridSerializedInput($links['related']);
+                    $post_data['products'] = $products;
                 }
 
                 $model->setData($post_data);

@@ -20,9 +20,7 @@
  */
 namespace Ves\PageBuilder\Setup;
 
-use Ves\PageBuilder\Model\Block;
 use Ves\PageBuilder\Model\BlockFactory;
-use Magento\Framework\Module\Setup\Migration;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
