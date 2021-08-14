@@ -32,7 +32,7 @@ class ElementList extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSou
      * @param \Ves\PageBuilder\Model\BlockFactory $blockFactory
      */
     public function __construct(
-        \Ves\Brand\Model\BlockFactory $blockFactory
+        \Ves\PageBuilder\Model\BlockFactory $blockFactory
         ) {
         $this->_blockFactory = $blockFactory;
     }
