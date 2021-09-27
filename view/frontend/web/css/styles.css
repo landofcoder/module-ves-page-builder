@@ -97,3 +97,8 @@
 .brand-sidebar .brand-item {
 	height: 50px;
 }
+@media (min-width: 768px), print {
+	.page-main-fluid {
+		max-width: 100%!important;
+	}
+}

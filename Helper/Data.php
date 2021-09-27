@@ -338,12 +338,46 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      */
     public function writeToCache( $folder, $file, $value, $e='css' ){
+        $fileName = preg_replace('/[^A-Z0-9\._-]/i', '', $file).'.'.$e;
+        $folder = str_replace("customize/", "customize", $folder);
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
+        }
+        $baseFolder = $this->getRootDirPath();
+        $folder = str_replace($baseFolder, "", $folder);
+        $fileName = $folder."/".$fileName;
+        $this->df_file_write(DirectoryList::PUB, $fileName, $value);
+        /*
         $file = $folder  . preg_replace('/[^A-Z0-9\._-]/i', '', $file).'.'.$e ;
         if (file_exists($file)) {
             unlink($file);
         }
         file_put_contents($file, $value);
         @chmod($file, 0777);
+        */
+    }
+
+    protected function df_file_write($directory, $relativeFileName, $contents) {
+        /** @var \Magento\Framework\App\ObjectManager $om */
+        $om = \Magento\Framework\App\ObjectManager::getInstance();
+        /** @var \Magento\Framework\Filesystem $filesystem */
+        $filesystem = $om->get('Magento\Framework\Filesystem');
+        /** @var \Magento\Framework\Filesystem\Directory\WriteInterface|\Magento\Framework\Filesystem\Directory\Write $writer */
+        $writer = $filesystem->getDirectoryWrite($directory);
+        /** @var \Magento\Framework\Filesystem\File\WriteInterface|\Magento\Framework\Filesystem\File\Write $file */
+        $file = $writer->openFile($relativeFileName, 'w');
+        try {
+            $file->lock();
+            try {
+                $file->write($contents);
+            }
+            finally {
+                $file->unlock();
+            }
+        }
+        finally {
+            $file->close();
+        }
     }
     
     public function autoBackupLayoutProfile($data = array(), $folder = "vespagebuilder") {
