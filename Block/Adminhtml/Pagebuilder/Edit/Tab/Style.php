@@ -34,20 +34,12 @@ class Style extends \Magento\Backend\Block\Widget\Form\Generic implements \Magen
      */
     protected function _prepareForm()
     {
-        $this->_eventManager->dispatch(
-        'ves_check_license',
-        ['obj' => $this,'ex'=>'Ves_PageBuilder']
-        );
         /*
          * Checking if user have permissions to save information
          */
         if ($this->_isAllowedAction('Ves_PageBuilder::page_edit')) {
             $isElementDisabled = false;
         } else {
-            $isElementDisabled = true;
-        }
-
-        if (($this->hasData('is_valid') && $this->hasData('local_valid')) && !$this->getData('is_valid') && !$this->getData('local_valid')) {
             $isElementDisabled = true;
         }
 

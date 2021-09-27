@@ -74,10 +74,6 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
      * @return $this
      */
     protected function _prepareForm() {
-        $this->_eventManager->dispatch(
-        'ves_check_license',
-        ['obj' => $this,'ex'=>'Ves_PageBuilder']
-        );
     	/** @var $model \Ves\PageBuilder\Model\Block */
     	$model = $this->_coreRegistry->registry('ves_pagebuilder');
         $wysiwygDescriptionConfig = $this->_wysiwygConfig->getConfig(['tab_id' => $this->getTabId()]);
@@ -90,11 +86,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     		$isElementDisabled = true;
     	}
 
-        if (($this->hasData('is_valid') && $this->hasData('local_valid')) && !$this->getData('is_valid') && !$this->getData('local_valid')) {
-            $isElementDisabled = true;
-            $wysiwygDescriptionConfig['enabled'] = $wysiwygDescriptionConfig['add_variables'] = $wysiwygDescriptionConfig['add_widgets'] = $wysiwygDescriptionConfig['add_images'] = 0;
-            $wysiwygDescriptionConfig['plugins'] = [];
-        }
+        $wysiwygDescriptionConfig['enabled'] = $wysiwygDescriptionConfig['add_variables'] = $wysiwygDescriptionConfig['add_widgets'] = $wysiwygDescriptionConfig['add_images'] = 0;
+        $wysiwygDescriptionConfig['plugins'] = [];
         $wysiwygDescriptionConfig['add_variables'] = $wysiwygDescriptionConfig['add_widgets'] = 0;
     	/** @var \Magento\Framework\Data\Form $form */
     	$form = $this->_formFactory->create();

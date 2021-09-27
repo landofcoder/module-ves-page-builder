@@ -91,18 +91,10 @@ class Design extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     protected function _prepareForm()
     {
-        $this->_eventManager->dispatch(
-        'ves_check_license',
-        ['obj' => $this,'ex'=>'Ves_PageBuilder']
-        );
         /*
          * Checking if user have permissions to save information
          */
         $isElementDisabled = !$this->_isAllowedAction('Ves_PageBuilder::block_edit');
-
-        if (($this->hasData('is_valid') && $this->hasData('local_valid')) && !$this->getData('is_valid') && !$this->getData('local_valid')) {
-            $isElementDisabled = true;
-        }
         
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(['data' => ['html_id_prefix' => 'block_']]);

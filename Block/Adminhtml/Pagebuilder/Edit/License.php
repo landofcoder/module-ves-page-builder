@@ -23,13 +23,6 @@ namespace Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit;
 class License extends \Magento\Framework\View\Element\Template
 {
 	protected function _toHtml(){
-		$this->_eventManager->dispatch(
-			'lof_check_license',
-			['obj' => $this,'ex'=>'Ves_PageBuilder']
-			);
-		if(!$this->getData('is_valid')){
-			return '<div id="messages"><div class="messages"><div class="message message-error error"><div data-ui-id="messages-message-error">Your licence is assigned to the different store domain. Please, login to your account in <a href="http://landofcoder.com">landofcoder.com</a> and check your licence status.</div></div></div></div>';
-		}
 		return parent::_toHtml();
 	}
 }

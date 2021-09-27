@@ -74,10 +74,6 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
      * @return $this
      */
     protected function _prepareForm() {
-        $this->_eventManager->dispatch(
-        'ves_check_license',
-        ['obj' => $this,'ex'=>'Ves_PageBuilder']
-        );
     	/** @var $model \Ves\PageBuilder\Model\Block */
     	$model = $this->_coreRegistry->registry('ves_pagebuilder');
 
@@ -89,10 +85,6 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     	}else {
     		$isElementDisabled = true;
     	}
-
-        if (($this->hasData('is_valid') && $this->hasData('local_valid')) && !$this->getData('is_valid') && !$this->getData('local_valid')) {
-            $isElementDisabled = true;
-        }
         
     	/** @var \Magento\Framework\Data\Form $form */
     	$form = $this->_formFactory->create();

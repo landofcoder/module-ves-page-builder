@@ -23,7 +23,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 	<body>
 		<referenceContainer name="notices.wrapper">
-			<block class="Ves\All\Block\Adminhtml\License" name="pagebuilder_license">
+			<block class="Ves\PageBuilder\Block\Adminhtml\Pagebuilder\Edit\License" name="pagebuilder_license">
 				<arguments>
 					<argument name="extension" xsi:type="string">Ves_PageBuilder</argument>
 				</arguments>
