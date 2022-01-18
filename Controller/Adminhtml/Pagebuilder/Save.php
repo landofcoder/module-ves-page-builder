@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -32,7 +32,7 @@ class Save extends \Magento\Backend\App\Action
      * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
-    
+
     /**
      * @var \Magento\Framework\Filesystem
      */
@@ -55,7 +55,7 @@ class Save extends \Magento\Backend\App\Action
      * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context, 
+        \Magento\Backend\App\Action\Context $context,
         PostDataProcessor $dataProcessor,
         \Ves\PageBuilder\Helper\Data $dataHelper,
         \Magento\Framework\Filesystem $filesystem
@@ -116,8 +116,8 @@ class Save extends \Magento\Backend\App\Action
                                  'created' => date( 'Y-m-d H:i:s' ),
                                  'position' => $model_from->getPosition()
                                 ];
-                
-                //Duplicate widget shortcodes                
+
+                //Duplicate widget shortcodes
                 $block_widgets = $model_from->lookupWidgets($id);
                 if($block_widgets) {
                     $wpowidgets = [];
@@ -132,7 +132,7 @@ class Save extends \Magento\Backend\App\Action
                 $settings['template'] = isset($post_data['template'])?$post_data['template']:'';
                 $settings['code'] = isset($block_data['alias'])?$block_data['alias']:'';
                 $block_data['shortcode'] = $this->_viewHelper->getShortCode("Ves\PageBuilder\Block\Widget\Page", $block_id, $settings);
-                                
+
                 $model->setData($block_data);
 
                 $post_data = array_merge($post_data, $block_data);
@@ -168,12 +168,17 @@ class Save extends \Magento\Backend\App\Action
                 $post_data['customer_group'] = implode(',', $post_data['customer_group']);
                 $post_data['params'] = str_replace(array("<p>","</p>"), "", $post_data['params'] );
                 $post_data['params'] = trim($post_data['params']);
-                
+
                 $settings['template'] = isset($post_data['template'])?$post_data['template']:'';
                 $settings['code'] = isset($post_data['alias'])?$post_data['alias']:'';
                 $post_data['shortcode'] = $this->_viewHelper->getShortCode("Ves\PageBuilder\Block\Widget\Page", $this->getRequest()->getParam("block_id"), $settings,__("Ves Base: Generate Page Builder Profile"));
 
-
+                if ($post_data['show_from']) {
+                    $post_data['show_from'] = (\DateTime::createFromFormat('d/m/Y', $post_data['show_from']))->format('Y-m-d');
+                }
+                if ($post_data['show_to']) {
+                    $post_data['show_to'] = (\DateTime::createFromFormat('d/m/Y', $post_data['show_to']))->format('Y-m-d');
+                }
                 if($this->getRequest()->getParam("block_id")) {
                     $post_data['modified'] = date( 'Y-m-d H:i:s' );
                 } else {
@@ -264,7 +269,7 @@ class Save extends \Magento\Backend\App\Action
                 if(!$page_model->getId()) {
                     $this->removeCMSUrlRewrite($data['stores'], $data['identifier']);
                 }
-                
+
                 if (!$this->dataProcessor->validate($data)) {
                     return $resultRedirect->setPath('*/*/edit', ['block_id' => $model->getId(), '_current' => true]);
                 }
@@ -283,7 +288,7 @@ class Save extends \Magento\Backend\App\Action
                 }
 
                 //End Create Or Updated CMS Page
-                
+
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {
                     return $resultRedirect->setPath('*/*/edit', ['block_id' => $model->getId(), '_current' => true]);
@@ -316,9 +321,9 @@ class Save extends \Magento\Backend\App\Action
         $collection->addFieldToFilter("entity_type", self::ENTITY_TYPE)
                    ->addFieldToFilter("request_path", $identifier);
         if($storeId && (count($storeId) > 1 || (count($storeId) == 1 && $storeId[0] != 0))){
-           $collection->addFieldToFilter("store_id", array("in"=> $storeId)); 
+           $collection->addFieldToFilter("store_id", array("in"=> $storeId));
         }
-    
+
         if(0 < $collection->getSize()) {
             foreach($collection->getItems() as $item) {
                 $urlRewriteItem = $this->_objectManager->create('Magento\UrlRewrite\Model\UrlRewrite');

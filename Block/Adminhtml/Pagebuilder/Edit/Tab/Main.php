@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -44,13 +44,13 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     protected $_customerGroup;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context       
-     * @param \Magento\Framework\Registry             $registry      
-     * @param \Magento\Framework\Data\FormFactory     $formFactory   
-     * @param \Magento\Store\Model\System\Store       $systemStore   
-     * @param \Magento\Cms\Model\Wysiwyg\Config       $wysiwygConfig 
-     * @param \Ves\PageBuilder\Helper\Data           $viewHelper    
-     * @param array                                   $data          
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Framework\Registry             $registry
+     * @param \Magento\Framework\Data\FormFactory     $formFactory
+     * @param \Magento\Store\Model\System\Store       $systemStore
+     * @param \Magento\Cms\Model\Wysiwyg\Config       $wysiwygConfig
+     * @param \Ves\PageBuilder\Helper\Data           $viewHelper
+     * @param array                                   $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -85,7 +85,7 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
     	}else {
     		$isElementDisabled = true;
     	}
-        
+
     	/** @var \Magento\Framework\Data\Form $form */
     	$form = $this->_formFactory->create();
 
@@ -166,7 +166,8 @@ class Main extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
             ]
             );
 
-        $dateFormat = $this->_localeDate->getDateFormat(\IntlDateFormatter::SHORT);
+        $dateFormat = $this->_localeDate->getDateFormat(\IntlDateFormatter::MEDIUM);
+        $dateFormat = 'd/M/Y';
         $fieldset->addField(
             'show_from',
             'date',

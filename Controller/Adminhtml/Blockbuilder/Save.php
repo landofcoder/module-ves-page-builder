@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -28,7 +28,7 @@ class Save extends \Magento\Backend\App\Action
      * @var \Magento\Framework\ObjectManagerInterface
      */
     protected $_objectManager;
-    
+
     /**
      * @var \Magento\Framework\Filesystem
      */
@@ -51,7 +51,7 @@ class Save extends \Magento\Backend\App\Action
      * @param \Magento\Backend\Helper\Js $jsHelper
      */
     public function __construct(
-        \Magento\Backend\App\Action\Context $context, 
+        \Magento\Backend\App\Action\Context $context,
         /*\Magento\Framework\ObjectManagerInterface $objectManager,*/
         \Ves\PageBuilder\Helper\Data $dataHelper,
         \Magento\Framework\Filesystem $filesystem,
@@ -93,7 +93,7 @@ class Save extends \Magento\Backend\App\Action
                 if ($id) {
                     $model_from->load($id);
                 }
-                
+
                 $block_id = 0;
                 $block_data = ['shortcode' => $model_from->getShortcode(),
                                  'params' => $model_from->getParams(),
@@ -112,7 +112,7 @@ class Save extends \Magento\Backend\App\Action
                                  'position' => $model_from->getPosition()
                                 ];
 
-                //Duplicate widget shortcodes                
+                //Duplicate widget shortcodes
                 $block_widgets = $model_from->lookupWidgets($id);
                 if($block_widgets) {
                     $wpowidgets = [];
@@ -123,10 +123,10 @@ class Save extends \Magento\Backend\App\Action
                     }
                     $block_data['wpowidget'] = $wpowidgets;
                 }
-                
+
                 $settings = [];
                 $block_data['shortcode'] = $this->_viewHelper->getShortCode("Ves\PageBuilder\Block\Widget\Builder", $this->getRequest()->getParam("block_id"), $settings);
-                
+
                 $model->setData($block_data);
 
             } else {
@@ -148,12 +148,18 @@ class Save extends \Magento\Backend\App\Action
                 //$post_data['settings'] = (isset($post_data['settings']) && $post_data['settings'])?serialize($post_data['settings']):"";
                 $post_data['shortcode'] = $this->_viewHelper->getShortCode("Ves\PageBuilder\Block\Widget\Builder", $this->getRequest()->getParam("block_id"), $settings);
 
+                if ($post_data['show_from']) {
+                    $post_data['show_from'] = (\DateTime::createFromFormat('d/m/Y', $post_data['show_from']))->format('Y-m-d');
+                }
+                if ($post_data['show_to']) {
+                    $post_data['show_to'] = (\DateTime::createFromFormat('d/m/Y', $post_data['show_to']))->format('Y-m-d');
+                }
                 if($this->getRequest()->getParam("block_id")) {
                     $post_data['modified'] = date( 'Y-m-d H:i:s' );
                 } else {
                     $post_data['created'] = date( 'Y-m-d H:i:s' );
                 }
-                
+
                 $links = $this->getRequest()->getPost('links');
                 $links = is_array($links) ? $links : [];
                 if(!empty($links) && isset($links['related'])){
@@ -176,7 +182,7 @@ class Save extends \Magento\Backend\App\Action
                 if($this->_viewHelper->getConfig('general/auto_backup_profile')) {
                     $this->_viewHelper->autoBackupLayoutProfile( $post_data, "vesblockbuilder" );
                 }
-                
+
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {
                     return $resultRedirect->setPath('*/*/edit', ['block_id' => $model->getId(), '_current' => true]);
