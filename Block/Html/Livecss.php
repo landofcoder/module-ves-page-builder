@@ -174,7 +174,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
             $files = glob( $path.'*' );
             foreach( $files as $dir ){
                 if( preg_match("#.png|.jpg|.gif#", $dir)){
-                    $output[] = str_replace("","",basename( $dir ) );
+                    $output[] = @str_replace("","",basename( $dir ) );
                 }
             }
         }
@@ -182,7 +182,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
     }
     public function getCustomizeFolderURL( $custom_css_folder_path = "" ) {
         if($custom_css_folder_path) {
-            $custom_css_folder_path = str_replace(DIRECTORY_SEPARATOR, "/", $custom_css_folder_path);
+            $custom_css_folder_path = @str_replace(DIRECTORY_SEPARATOR, "/", $custom_css_folder_path);
         } else{
             $custom_css_folder_path = $this->_default_css_folder;
         }
@@ -312,7 +312,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
             $files = glob( $path.'*' );
             foreach( $files as $dir ){
                 if( preg_match("#.png|.jpg|.gif#", $dir)){
-                    $output[] = str_replace("","",basename( $dir ) );
+                    $output[] = @str_replace("","",basename( $dir ) );
                 }
             }
         }
@@ -344,7 +344,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
 
         $allowedIPs = array();
 
-        if ('' !== trim($allowedIPsString)) {
+        if ('' !== @trim($allowedIPsString)) {
             $allowedIPs = explode(',', $allowedIPsString);
         }
 

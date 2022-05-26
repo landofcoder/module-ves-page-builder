@@ -55,7 +55,7 @@ class Builder extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function minifyHtml($data)
     {
-        $data = trim(preg_replace('/\t+/', '', $data));
+        $data = @trim(preg_replace('/\t+/', '', $data));
         //$data = preg_replace('/\s+/S', " ", $data);
         return $data;
     }

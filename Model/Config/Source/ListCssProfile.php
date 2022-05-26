@@ -59,17 +59,17 @@ class ListCssProfile implements \Magento\Framework\Option\ArrayInterface
 
         $path_css_profile = $this->_dataHelper->getConfig("general/path_css_profile", null, "media/pagebuilder/livecss", "veslivecss");
 
-        $path_css_profile = str_replace("/", DIRECTORY_SEPARATOR, $path_css_profile);// pub/pagebuilder/livecss/customize/
+        $path_css_profile = @str_replace("/", DIRECTORY_SEPARATOR, $path_css_profile);// pub/pagebuilder/livecss/customize/
         $path = $this->getPubDirPath() . $path_css_profile . DIRECTORY_SEPARATOR;
 
-        $default_path_css_profile = str_replace("/", DIRECTORY_SEPARATOR, "pagebuilder/livecss/customize");
+        $default_path_css_profile = @str_replace("/", DIRECTORY_SEPARATOR, "pagebuilder/livecss/customize");
         $default_path = $this->getPubDirPath() . $default_path_css_profile . DIRECTORY_SEPARATOR;
 
         if( $path && is_dir($path) ) {
             $files = glob( $path.'*.css' );
             foreach( $files as $dir ){
                 if( preg_match("#.css#", $dir)){
-                    $file_name = str_replace("","",basename( $dir ) );
+                    $file_name = @str_replace("","",basename( $dir ) );
                     $output[] = array('label' => ucfirst($file_name),
                                       'value' => $file_name);
                 }
@@ -78,7 +78,7 @@ class ListCssProfile implements \Magento\Framework\Option\ArrayInterface
             $files = glob( $default_path.'*.css' );
             foreach( $files as $dir ){
                 if( preg_match("#.css#", $dir)){
-                    $file_name = str_replace("","",basename( $dir ) );
+                    $file_name = @str_replace("","",basename( $dir ) );
                     $output[] = array('label' => ucfirst($file_name),
                                       'value' => $file_name);
                 }

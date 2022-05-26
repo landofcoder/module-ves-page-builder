@@ -719,7 +719,7 @@ class MobileDetect extends \Magento\Framework\App\Helper\AbstractHelper
     {
         // are we using PHP-flavored headers?
         if (strpos($header, '_') === false) {
-            $header = str_replace('-', '_', $header);
+            $header = @str_replace('-', '_', $header);
             $header = strtoupper($header);
         }
 
@@ -816,7 +816,7 @@ class MobileDetect extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             if (!empty($this->userAgent)) {
-                return $this->userAgent = trim($this->userAgent);
+                return $this->userAgent = @trim($this->userAgent);
             }
         }
 
@@ -1232,7 +1232,7 @@ class MobileDetect extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Prepare the version number.
      *
-     * @todo Remove the error supression from str_replace() call.
+     * @todo Remove the error supression from @str_replace() call.
      *
      * @param string $ver The string version, like "2.6.21.2152";
      *
@@ -1240,11 +1240,11 @@ class MobileDetect extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function prepareVersionNo($ver)
     {
-        $ver = str_replace(array('_', ' ', '/'), '.', $ver);
+        $ver = @str_replace(array('_', ' ', '/'), '.', $ver);
         $arrVer = explode('.', $ver, 2);
 
         if (isset($arrVer[1])) {
-            $arrVer[1] = @str_replace('.', '', $arrVer[1]); // @todo: treat strings versions.
+            $arrVer[1] = @@str_replace('.', '', $arrVer[1]); // @todo: treat strings versions.
         }
 
         return (float) implode('.', $arrVer);
@@ -1285,7 +1285,7 @@ class MobileDetect extends \Magento\Framework\App\Helper\AbstractHelper
 
             foreach ($properties[$propertyName] as $propertyMatchString) {
 
-                $propertyPattern = str_replace('[VER]', self::VER, $propertyMatchString);
+                $propertyPattern = @str_replace('[VER]', self::VER, $propertyMatchString);
 
                 // Identify and extract the version.
                 preg_match(sprintf('#%s#is', $propertyPattern), $this->userAgent, $match);

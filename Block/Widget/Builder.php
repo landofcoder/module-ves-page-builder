@@ -221,7 +221,7 @@ class Builder extends AbstractWidget
         if(!$this->_row_phtml) {
             $module_dir = $this->_filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath();
             $file_path = "code/Ves/PageBuilder/view/frontend/templates/blockbuilder/row.phtml";
-            $file_path = str_replace("/", DIRECTORY_SEPARATOR , $file_path);
+            $file_path = @str_replace("/", DIRECTORY_SEPARATOR , $file_path);
 
             $row_phtml_file_path = $module_dir.$file_path;
             if(file_exists($row_phtml_file_path)){

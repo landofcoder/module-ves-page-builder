@@ -142,8 +142,8 @@ class Save extends \Magento\Backend\App\Action
                 $post_data['block_type'] = isset($post_data['block_type'])?$post_data['block_type']:'block';
                 $post_data['container'] = isset($post_data['container'])?$post_data['container']:'1';
                 $post_data['customer_group'] = implode(',', $post_data['customer_group']);
-                $post_data['params'] = str_replace(array("<p>","</p>"), "", $post_data['params'] );
-                $post_data['params'] = trim($post_data['params']);
+                $post_data['params'] = @str_replace(array("<p>","</p>"), "", $post_data['params'] );
+                $post_data['params'] = @trim($post_data['params']);
 
                 //$post_data['settings'] = (isset($post_data['settings']) && $post_data['settings'])?serialize($post_data['settings']):"";
                 $post_data['shortcode'] = $this->_viewHelper->getShortCode("Ves\PageBuilder\Block\Widget\Builder", $this->getRequest()->getParam("block_id"), $settings);

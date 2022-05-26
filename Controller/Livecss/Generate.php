@@ -90,7 +90,7 @@ class Generate extends \Magento\Framework\App\Action\Action
 
         $allowedIPs = array();
 
-        if ('' !== trim($allowedIPsString)) {
+        if ('' !== @trim($allowedIPsString)) {
             $allowedIPs = explode(',', $allowedIPsString);
         }
 
@@ -191,13 +191,13 @@ class Generate extends \Magento\Framework\App\Action\Action
                         if( isset($matches[$match]) && isset($matches[$match][$key]) ){
                             $tmp = explode("|", $matches[$match][$key]);
 
-                            if( trim($customize) ) {
+                            if( @trim($customize) ) {
                                 $output .= $tmp[0]." { ";
-                                if( strtolower(trim($tmp[1])) == 'background-image'){
+                                if( strtolower(@trim($tmp[1])) == 'background-image'){
                                     $output .= $tmp[1] . ':url('.$customize .')!important';
-                                } elseif( strtolower(trim($tmp[1])) == 'font-size' ){
+                                } elseif( strtolower(@trim($tmp[1])) == 'font-size' ){
                                     $output .= $tmp[1] . ':'.$customize.'px!important';
-                                } elseif(strtolower(trim($tmp[1])) == 'customcss'  ){
+                                } elseif(strtolower(@trim($tmp[1])) == 'customcss'  ){
                                     $output .= $this->_compressCssCode( $customize );
                                 } else {
                                     $output .= $tmp[1] . ':#'.$customize.'!important';
@@ -224,7 +224,7 @@ class Generate extends \Magento\Framework\App\Action\Action
                     if( isset($data['newfile']) && empty($data['newfile']) ){
                         $nameFile = time();
                     }else {
-                        $nameFile = preg_replace("#\s+#", "-", trim($data['newfile']));
+                        $nameFile = preg_replace("#\s+#", "-", @trim($data['newfile']));
                     }
                 }
 
@@ -265,13 +265,13 @@ class Generate extends \Magento\Framework\App\Action\Action
     }
 
     private function _compressCssCode( $input_text = "") {
-        $output = str_replace(array("\r\n", "\r"), "\n", $input_text);
+        $output = @str_replace(array("\r\n", "\r"), "\n", $input_text);
         $lines = explode("\n", $input_text);
         $new_lines = array();
 
         foreach ($lines as $i => $line) {
             if(!empty($line))
-                $new_lines[] = trim($line);
+                $new_lines[] = @trim($line);
         }
         return implode($new_lines);
     }

@@ -176,20 +176,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $options = array();
             if($settings) {
                 foreach($settings as $k => $v) {
-                    if(trim($v)) {
-                        $options[] = trim($k). '="'.trim($v).'"';
+                    if(@trim($v)) {
+                        $options[] = @trim($k). '="'.@trim($v).'"';
                     }
                 }
             }
 
             $block_id = '';
             if($alias) {
-                $block_id = 'block_id="'.trim($alias).'"';
+                $block_id = 'block_id="'.@trim($alias).'"';
             }
             if($type_name) {
                 $type_name = 'type_name="'.$type_name.'"';
             }
-            return '{{widget type="'.trim($key).'" '.$block_id.' '.implode(" ", $options).' '.$type_name.'}}';
+            return '{{widget type="'.@trim($key).'" '.$block_id.' '.implode(" ", $options).' '.$type_name.'}}';
         }
         return  ;
     }
@@ -352,12 +352,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function writeToCache( $folder, $file, $value, $e='css' )
     {
         $fileName = preg_replace('/[^A-Z0-9\._-]/i', '', $file).'.'.$e;
-        $folder = str_replace("customize/", "customize", $folder);
+        $folder = @str_replace("customize/", "customize", $folder);
         if (!file_exists($folder)) {
             mkdir($folder, 0777, true);
         }
         $baseFolder = $this->getRootDirPath();
-        $folder = str_replace($baseFolder, "", $folder);
+        $folder = @str_replace($baseFolder, "", $folder);
         $fileName = $folder."/".$fileName;
         $this->df_file_write(DirectoryList::PUB, $fileName, $value);
         /*
@@ -401,7 +401,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             mkdir($backup_dir,0777,true);
         }
         if($data) {
-            $filename = isset($data['alias']) ? str_replace([ '/', '\\' ], '__', $data['alias']) : rand() . time();
+            $filename = isset($data['alias']) ? @str_replace([ '/', '\\' ], '__', $data['alias']) : rand() . time();
             $filename = $backup_dir.DIRECTORY_SEPARATOR.$filename."_bak_".time().".json";
             $content = isset($data['params'])?$data['params']:"";
             $widgets = isset($data['wpowidget'])?$data['wpowidget']:array();
@@ -526,7 +526,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function subString( $text, $length = 100, $replacer ='...', $is_striped=true )
     {
             $text = ($is_striped==true)?strip_tags($text):$text;
-            if(strlen($text) <= $length){
+            if(@strlen($text) <= $length){
                 return $text;
             }
             $text = substr($text,0,$length);
@@ -551,7 +551,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             foreach($dirs as $dir) {
                 $file_name = basename( $dir );
                 $filepath = $folder.$file_name;
-                $file_name = str_replace(array(" ","."), "-", $file_name);
+                $file_name = @str_replace(array(" ","."), "-", $file_name);
                 $result[$file_name] = $this->readSampleFile($file_name, $filepath);
             }
         }
@@ -580,11 +580,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * */
     public function minify_html($input)
     {
-        if(trim($input) === "") return $input;
+        if(@trim($input) === "") return $input;
         // Remove extra white-space(s) between HTML attribute(s)
         $input = preg_replace_callback('#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', function($matches) {
             return '<' . $matches[1] . preg_replace('#([^\s=]+)(\=([\'"]?)(.*?)\3)?(\s+|$)#s', ' $1$2', $matches[2]) . $matches[3] . '>';
-        }, str_replace("\r", "", $input));
+        }, @str_replace("\r", "", $input));
         // Minify inline CSS declaration(s)
         if(strpos($input, ' style=') !== false) {
             $input = preg_replace_callback('#<([^<]+?)\s+style=([\'"])(.*?)\2(?=[\/\s>])#s', function($matches) {
@@ -628,7 +628,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     // CSS Minifier => http://ideone.com/Q5USEF + improvement(s)
     public function minify_css($input)
     {
-        if(trim($input) === "") return $input;
+        if(@trim($input) === "") return $input;
         return preg_replace(
             array(
                 // Remove comment(s)
@@ -672,7 +672,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     // JavaScript Minifier
     public function minify_js($input)
     {
-        if(trim($input) === "") return $input;
+        if(@trim($input) === "") return $input;
         return preg_replace(
             array(
                 // Remove comment(s)

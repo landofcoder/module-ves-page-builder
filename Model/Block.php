@@ -635,7 +635,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                         $widget['title'] = __("Element Profile: ").'<a href="'.$element_url.'" target="_BLANK" onclick="window.location=\''.$element_url.'\';" title="'.__("Edit Element Profile").'"><span>'.$element_model->getTitle().'</span></a>';
                         $widget['description'] = $element_model->getDescription();
                         $widget['description'] = strip_tags($widget['description']);
-                        $widget['description'] = trim($widget['description']);
+                        $widget['description'] = @trim($widget['description']);
                         $widget['banner'] = $element_model->getBanner();
                         $widget['created_at'] = $element_model->getCreated();
                    }
@@ -652,7 +652,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                         $widget['title'] = __("CMS Static Block: ").'<a href="'.$cms_block_url.'" target="_BLANK" onclick="window.location=\''.$cms_block_url.'\';" title="'.__("Edit CMS Static Block").'"><span>'.$cms_block_model->getTitle().'</span></a>';
                         $widget['description'] = $cms_block_model->getContent();
                         $widget['description'] = strip_tags($widget['description']);
-                        $widget['description'] = trim($widget['description']);
+                        $widget['description'] = @trim($widget['description']);
                         $widget['created_at'] = $cms_block_model->getCreationTime();
                    }
                    break;
@@ -684,12 +684,12 @@ class Block extends \Magento\Framework\Model\AbstractModel
                         }
                     }
                     $html = isset($widget_array['content_html'])?$widget_array['content_html']:'';
-                    $html = str_replace(" ", "+", $html);
+                    $html = @str_replace(" ", "+", $html);
                     if(is_string($html) && $this->isBase64Encoded($html)) {
                         $html = base64_decode($html);
                     }
                     $html = strip_tags($html);
-                    $html = trim($html);
+                    $html = @trim($html);
 
                     $widget['title'] = __("Our Service").$title;
                     $widget['description'] = $html;
@@ -705,12 +705,12 @@ class Block extends \Magento\Framework\Model\AbstractModel
 
                     $title = isset($widget_array['title'])?(' - '.$widget_array['title']):'';
                     $html = isset($widget_array['html'])?$widget_array['html']:'';
-                    $html = str_replace(" ", "+", $html);
+                    $html = @str_replace(" ", "+", $html);
                     if(is_string($html) && $this->isBase64Encoded($html)) {
                         $html = base64_decode($html);
                     }
                     $html = strip_tags($html,"<a><b><strong><span><ul><li><i><u>");
-                    $html = trim($html);
+                    $html = @trim($html);
 
                     $widget['title'] = __("Html").$title;
                     $widget['description'] = $html;
@@ -721,12 +721,12 @@ class Block extends \Magento\Framework\Model\AbstractModel
 
                     $title = isset($widget_array['title'])?(' - '.$widget_array['title']):'';
                     $html = isset($widget_array['html'])?$widget_array['html']:'';
-                    $html = str_replace(" ", "+", $html);
+                    $html = @str_replace(" ", "+", $html);
                     if(is_string($html) &&$this->isBase64Encoded($html)) {
                         $html = base64_decode($html);
                     }
                     $html = strip_tags($html,"<a><b><strong><span><ul><li><i><u>");
-                    $html = trim($html);
+                    $html = @trim($html);
 
                     $widget['title'] = __("Simple Content Html").$title;
                     $widget['description'] = $html;
@@ -737,13 +737,13 @@ class Block extends \Magento\Framework\Model\AbstractModel
 
                     $heading_tag = (isset($widget_array['heading_tag'])&&$widget_array['heading_tag'])?$widget_array['heading_tag']:'h3';
                     $html = isset($widget_array['content'])?$widget_array['content']:'';
-                    $html = str_replace(" ", "+", $html);
+                    $html = @str_replace(" ", "+", $html);
                     if(is_string($html) && $this->isBase64Encoded($html)) {
                         $html = base64_decode($html);
                     }
 
                     $html = strip_tags($html,"<a><b><strong><span><ul><li><i><u>");
-                    $html = trim($html);
+                    $html = @trim($html);
 
                     $widget['title'] = __("Heading Tag");
                     $widget['description'] = "<".$heading_tag.">".$html."</".$heading_tag.">";

@@ -66,7 +66,7 @@ class Widget extends \Magento\Framework\App\Action\Action
     {
         $this->_view->loadLayout();
         $widget_shortcode = $this->getRequest()->getPost('shortcode');
-        $widget_shortcode = str_replace(" ","+", $widget_shortcode);
+        $widget_shortcode = @str_replace(" ","+", $widget_shortcode);
         $widget_shortcode = base64_decode($widget_shortcode);
 
         $html = "";

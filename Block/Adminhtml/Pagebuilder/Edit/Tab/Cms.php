@@ -167,7 +167,7 @@ class Cms extends \Magento\Backend\Block\Widget\Form\Generic implements
         );
         if (!$model->getId()) {
             $model->setRootTemplate($this->_pageLayout->getDefaultValue());
-            $model->setPageLayout($this->_pageLayout->getDefaultValue());
+            $model->setPageLayout("1column");
         }
 
         //List of custom layout files available for current page.

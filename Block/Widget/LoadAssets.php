@@ -97,7 +97,7 @@ class LoadAssets extends \Magento\Framework\View\Element\Template implements \Ma
 	public function getCustomCss(){
 		$custom_css = $this->getConfig("content");
 		if($custom_css) {
-			$custom_css = str_replace(" ", "+", $custom_css);
+			$custom_css = @str_replace(" ", "+", $custom_css);
 			$custom_css = base64_decode($custom_css);
 		}
 		return $custom_css;

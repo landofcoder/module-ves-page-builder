@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -47,13 +47,13 @@ class Design extends \Magento\Backend\Block\Widget\Form\Generic implements
     protected $_blockHelper;
 
     /**
-     * @param \Magento\Backend\Block\Template\Context                          $context           
-     * @param \Magento\Framework\Registry                                      $registry          
-     * @param \Magento\Framework\Data\FormFactory                              $formFactory       
-     * @param \Magento\Theme\Model\Layout\Source\Layout                        $pageLayout        
-     * @param \Magento\Framework\View\Design\Theme\LabelFactory                $labelFactory      
-     * @param \Magento\Framework\View\Model\PageLayout\Config\BuilderInterface $pageLayoutBuilder 
-     * @param array                                                            $data              
+     * @param \Magento\Backend\Block\Template\Context                          $context
+     * @param \Magento\Framework\Registry                                      $registry
+     * @param \Magento\Framework\Data\FormFactory                              $formFactory
+     * @param \Magento\Theme\Model\Layout\Source\Layout                        $pageLayout
+     * @param \Magento\Framework\View\Design\Theme\LabelFactory                $labelFactory
+     * @param \Magento\Framework\View\Model\PageLayout\Config\BuilderInterface $pageLayoutBuilder
+     * @param array                                                            $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -95,7 +95,7 @@ class Design extends \Magento\Backend\Block\Widget\Form\Generic implements
          * Checking if user have permissions to save information
          */
         $isElementDisabled = !$this->_isAllowedAction('Ves_PageBuilder::block_edit');
-        
+
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(['data' => ['html_id_prefix' => 'block_']]);
 
@@ -136,20 +136,20 @@ class Design extends \Magento\Backend\Block\Widget\Form\Generic implements
             if($model->getParams()) {
                 $options['default'] = __('Current Layout Profile');
             }
-            
+
             $folder = "";
             $folder = "vesblockbuilder";
 
             $backup_layouts = $this->_blockHelper->getBackupLayouts( $folder );
 
             $this->_coreRegistry->register("backup_layouts", $backup_layouts);
-           
+
             if($backup_layouts) {
                 foreach($backup_layouts as $key=>$val) {
                     $key_label = $key;
                     $arr_key = explode("_bak_", $key);
                     if(count($arr_key) > 1) {
-                        $tmp_key2 = str_replace("-json","", $arr_key[1]);
+                        $tmp_key2 = @str_replace("-json","", $arr_key[1]);
                         $tmp_key2 = date("Y-m-d H:i:s", $tmp_key2);
                         $key_label = $arr_key[0]." ".$tmp_key2."-json";
                     }
@@ -173,7 +173,7 @@ class Design extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $lastEvent = "";
 
-        
+
         $layoutFieldset->addType('extended_editor','\Ves\PageBuilder\Helper\Form\Element\Extendededitor');
 
         $layoutFieldset->addField(
@@ -190,7 +190,7 @@ class Design extends \Magento\Backend\Block\Widget\Form\Generic implements
         );
 
         $this->_eventManager->dispatch('adminhtml_cms_page_edit_tab_design_prepare_form', ['form' => $form]);
-        
+
         $form->setValues($model->getData());
 
         $this->setForm($form);

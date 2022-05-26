@@ -1,7 +1,7 @@
 <?php
 $is_container = isset($is_container)?$is_container:0;
 //$is_container = 0;
-$rows = $layouts; 
+$rows = $layouts;
 $level = 1;
 $block_id = isset($block_id)?$block_id:"";
 if(file_exists(__DIR__.DIRECTORY_SEPARATOR."block.phtml")) {
@@ -16,7 +16,7 @@ if($row_phtml) {
 <?php require $row_phtml; ?>
 <?php } else { ?>
 <div class="block vesbuilder-block <?php echo $block_id." ".$class; ?>">
-	<?php if( trim($heading) && $show_title ){ ?>
+	<?php if( @trim($heading) && $show_title ){ ?>
 	<div class="block-title"><span><?php echo $heading; ?></span></div>
 	<?php } ?>
 	<div class="block-content">

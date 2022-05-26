@@ -54,7 +54,7 @@ class ListLiveProfile implements \Magento\Framework\Option\ArrayInterface
             $files = glob( $path.'*' );
             foreach( $files as $dir ){
                 if( preg_match("#.xml#", $dir)){
-                    $file_name = str_replace("","",basename( $dir ) );
+                    $file_name = @str_replace("","",basename( $dir ) );
                     $output[] = array('label' => ucfirst($file_name),
                                       'value' => $file_name);
                 }
