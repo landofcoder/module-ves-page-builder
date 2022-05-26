@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -88,15 +88,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_filterProvider;
 
     protected $_readFactory;
+
      /**
      * @var \Magento\Cms\Model\Template\FilterProvider
      */
     protected $_filesystem;
+
     /** @var UrlBuilder */
     protected $actionUrlBuilder;
+
     protected $_objectManager;
-
-
 
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -106,7 +107,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         ReadFactory $readFactory
-        ) {
+    ) {
         parent::__construct($context);
         $this->_storeManager = $storeManager;
         $this->_filterProvider = $filterProvider;
@@ -116,6 +117,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_objectManager = $objectManager;
         $this->actionUrlBuilder = $context->getUrlBuilder();
     }
+
     /**
      * Checks if Google Experiment is enabled
      *
@@ -127,7 +129,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return (bool)$this->scopeConfig->isSetFlag(self::XML_PATH_ENABLED, ScopeInterface::SCOPE_STORE, $store);
     }
 
-    
     /**
      * Return brand config value by key and store
      *
@@ -164,13 +165,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         foreach ($customer_groups as $item_group) {
             $data_array[] =  array('value' => $item_group->getId(), 'label' => $item_group->getCode());
         }
-        
+
         return $data_array;
 
     }
 
-
-    public function getShortCode($key, $alias = "", $settings = array(), $type_name = "") {
+    public function getShortCode($key, $alias = "", $settings = array(), $type_name = "")
+    {
         if($key) {
             $options = array();
             if($settings) {
@@ -193,7 +194,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return  ;
     }
 
-    public function generatePageBuilder($alias = "") {
+    public function generatePageBuilder($alias = "")
+    {
         if($alias) {
             $short_code = $this->getShortCode("Ves\PageBuilder\Block\Widget\Block", $alias);
             return $this->filter($short_code);
@@ -201,19 +203,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return ;
     }
 
-    public function runShortcode($short_code = "") {
+    public function runShortcode($short_code = "")
+    {
         if($short_code) {
             return $this->filter($short_code);
         }
         return ;
     }
 
-    public function checkModuleInstalled( $module_name = "") {
+    public function checkModuleInstalled( $module_name = "")
+    {
         return true;
     }
 
 
-    public function getImageUrl($secure = false) {
+    public function getImageUrl($secure = false)
+    {
         return;
     }
 
@@ -221,13 +226,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Handles CSV upload
      * @return string $filepath
      */
-    public function getUploadedFile( $profile = "", $is_pagebuilder = false, $sub_folder = "") {
+    public function getUploadedFile( $profile = "", $is_pagebuilder = false, $sub_folder = "")
+    {
         $filepath = null;
         return $filepath;
 
     }
 
-    public function getImportPath($theme = ""){
+    public function getImportPath($theme = "")
+    {
         $path = $this->getRootDirPath(). DS . 'cache'.DS;
 
         if (is_dir_writeable($path) != true) {
@@ -240,7 +247,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      *
      */
-    public function getFileList( $path , $e=null, $filter_pattern = "" ) {
+    public function getFileList( $path , $e=null, $filter_pattern = "" )
+    {
         $output = array();
         $directories = glob( $path.'*'.$e );
         if($directories) {
@@ -250,22 +258,23 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     if(strpos($file_name, $filter_pattern) !== false) {
                         $output[] = basename( $dir );
                     }
-                    
+
                 } else {
                     $output[] = basename( $dir );
                 }
-                
-            }  
+
+            }
         }
-                 
-        
+
+
         return $output;
     }
 
      /**
      *
      */
-    public function getBlockProfiles() {
+    public function getBlockProfiles()
+    {
         $path = $this->getRootDirPath()."pagebuilder".DIRECTORY_SEPARATOR."block_profiles".DIRECTORY_SEPARATOR;
         $dirs = array_filter(glob($path . '/*'), 'is_dir');
         $file_type = ".csv";
@@ -287,10 +296,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         return $output;
     }
+
     /**
      *
      */
-    public function getPageProfiles() {
+    public function getPageProfiles()
+    {
         $path = $this->getRootDirPath()."pagebuilder".DIRECTORY_SEPARATOR."page_profiles".DIRECTORY_SEPARATOR;
         $dirs = array_filter(glob($path . '/*'), 'is_dir');
         $file_type = ".csv";
@@ -308,12 +319,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         } else {
             $output = $this->getFileList($path, $file_type);
         }
-        
+
         return $output;
     }
 
-
-    public function getBlockProfilePath( $profile = "") {
+    public function getBlockProfilePath( $profile = "")
+    {
         $path = $this->getRootDirPath()."pagebuilder".DIRECTORY_SEPARATOR."block_profiles".DIRECTORY_SEPARATOR.$profile.".csv";
 
         if(file_exists($path)) {
@@ -321,10 +332,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return false;
-        
+
     }
 
-    public function getPageProfilePath( $profile = "") {
+    public function getPageProfilePath( $profile = "")
+    {
         $path = $this->getRootDirPath()."pagebuilder".DIRECTORY_SEPARATOR."page_profiles".DIRECTORY_SEPARATOR.$profile.".csv";
 
         if(file_exists($path)) {
@@ -337,7 +349,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      *
      */
-    public function writeToCache( $folder, $file, $value, $e='css' ){
+    public function writeToCache( $folder, $file, $value, $e='css' )
+    {
         $fileName = preg_replace('/[^A-Z0-9\._-]/i', '', $file).'.'.$e;
         $folder = str_replace("customize/", "customize", $folder);
         if (!file_exists($folder)) {
@@ -357,7 +370,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         */
     }
 
-    protected function df_file_write($directory, $relativeFileName, $contents) {
+    protected function df_file_write($directory, $relativeFileName, $contents)
+    {
         /** @var \Magento\Framework\App\ObjectManager $om */
         $om = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var \Magento\Framework\Filesystem $filesystem */
@@ -379,8 +393,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $file->close();
         }
     }
-    
-    public function autoBackupLayoutProfile($data = array(), $folder = "vespagebuilder") {
+
+    public function autoBackupLayoutProfile($data = array(), $folder = "vespagebuilder")
+    {
         $backup_dir = $this->getRootDirPath(DirectoryList::VAR_DIR)."{$folder}";
         if (!is_dir($backup_dir)) {
             mkdir($backup_dir,0777,true);
@@ -405,7 +420,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return false;
     }
 
-    public function insertWidgetShortcode($json_content, $widgets = []){
+    public function insertWidgetShortcode($json_content, $widgets = [])
+    {
         $json_obj = $this->_objectManager->get('Magento\Framework\Json\Helper\Data')->jsonDecode($json_content);
         $tmp_content = $json_content;
         if($json_obj && $widgets) {
@@ -417,7 +433,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         return $tmp_content;
     }
-    public function generateJsonArray($data_rows = [], $widgets = []){
+
+    public function generateJsonArray($data_rows = [], $widgets = [])
+    {
         $output = [];
         foreach($data_rows as $row) {
             $tmp_row = $row;
@@ -439,14 +457,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
         return $output;
     }
+
     protected function writeFile($content,$file,$type)
     {
         $path = "";
         return $path;
     }
 
-
-    public function getSelectorGroups () {
+    public function getSelectorGroups ()
+    {
         return array(   'body' => __('Body Content'),
                         'topbar' => __('TopBar'),
                         'header-main' => __('Header'),
@@ -465,7 +484,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                         );
     }
 
-    public function getSelectorTypes () {
+    public function getSelectorTypes ()
+    {
         return array('raw-text' => __('Text'),
                     'text' => __('Color Input'),
                     'image' => __('Image Pattern'),
@@ -475,7 +495,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 );
     }
 
-    public function checkDragableBlock( $block_class_name = "") {
+    public function checkDragableBlock( $block_class_name = "")
+    {
         $exists = in_array($block_class_name, self::$_list_dragable_blocks)?true:false;
         if(!$exists){
             foreach(self::$_list_dragable_blocks as $item) {
@@ -488,7 +509,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $exists;
     }
 
-    public function checkEditableBlock( $block_class_name = "") {
+    public function checkEditableBlock( $block_class_name = "")
+    {
         $exists = isset(self::$_list_editable_blocks[ $block_class_name])?true:false;
         if(!$exists){
             foreach(self::$_list_editable_blocks as $item) {
@@ -501,7 +523,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $exists;
     }
 
-    public function subString( $text, $length = 100, $replacer ='...', $is_striped=true ){
+    public function subString( $text, $length = 100, $replacer ='...', $is_striped=true )
+    {
             $text = ($is_striped==true)?strip_tags($text):$text;
             if(strlen($text) <= $length){
                 return $text;
@@ -511,18 +534,20 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             return substr($text,0,$pos_space).$replacer;
     }
 
-    public function getRootDirPath( $path_type = "") {
+    public function getRootDirPath( $path_type = "")
+    {
         $path_type = $path_type?$path_type:DirectoryList::PUB;
         return $this->_filesystem->getDirectoryRead($path_type)->getAbsolutePath();
     }
 
-    public function getBackupLayouts($folder_name = "vespagebuilder") {
+    public function getBackupLayouts($folder_name = "vespagebuilder")
+    {
         $result = array();
         $file_ext = ".json";
         $folder = $this->getRootDirPath(DirectoryList::VAR_DIR)."{$folder_name}".DIRECTORY_SEPARATOR;
 
         $dirs = glob( $folder.'*'.$file_ext );
-        if($dirs) { //load 
+        if($dirs) { //load
             foreach($dirs as $dir) {
                 $file_name = basename( $dir );
                 $filepath = $folder.$file_name;
@@ -534,7 +559,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $result;
     }
 
-    public function readSampleFile($file_name, $filepath = "") {
+    public function readSampleFile($file_name, $filepath = "")
+    {
         $result = "";
         if($filepath) {
             $fileReader = $this->_readFactory->create($filepath, DriverPool::FILE);
@@ -543,12 +569,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $result;
     }
 
-    public function getUrl($route = "", $params = []) {
+    public function getUrl($route = "", $params = [])
+    {
         return $this->actionUrlBuilder->getUrl( $route, $params );
     }
 
-    // HTML Minifier
-    public function minify_html($input) {
+    /** HTML Minifier
+     * @param mixed|string $input
+     * @return string
+     * */
+    public function minify_html($input)
+    {
         if(trim($input) === "") return $input;
         // Remove extra white-space(s) between HTML attribute(s)
         $input = preg_replace_callback('#<([^\/\s<>!]+)(?:\s+([^<>]*?)\s*|\s*)(\/?)>#s', function($matches) {
@@ -595,7 +626,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     // CSS Minifier => http://ideone.com/Q5USEF + improvement(s)
-    public function minify_css($input) {
+    public function minify_css($input)
+    {
         if(trim($input) === "") return $input;
         return preg_replace(
             array(
@@ -638,7 +670,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     // JavaScript Minifier
-    public function minify_js($input) {
+    public function minify_js($input)
+    {
         if(trim($input) === "") return $input;
         return preg_replace(
             array(
@@ -662,6 +695,4 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             ),
         $input);
     }
-    
-
 }

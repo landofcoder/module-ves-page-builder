@@ -24,7 +24,6 @@ class Generate extends \Magento\Framework\App\Action\Action
      */
     protected $_coreRegistry = null;
 
-
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
@@ -112,7 +111,7 @@ class Generate extends \Magento\Framework\App\Action\Action
 
         return false;
     }
-    
+
     protected function _getSession()
     {
         if ($this->_adminSession === null) {
@@ -173,7 +172,7 @@ class Generate extends \Magento\Framework\App\Action\Action
         if(!$show || !$allow_save_profile || !$this->isAllowCurrentIp()) {
             return $this->goBack();
         }
-        
+
         if ($data = $this->getRequest()->getPost()) {
             $selectors = $data['customize'];
             $matches = $data["customize_match"];
@@ -197,18 +196,18 @@ class Generate extends \Magento\Framework\App\Action\Action
                                 if( strtolower(trim($tmp[1])) == 'background-image'){
                                     $output .= $tmp[1] . ':url('.$customize .')!important';
                                 } elseif( strtolower(trim($tmp[1])) == 'font-size' ){
-                                    $output .= $tmp[1] . ':'.$customize.'px!important';   
+                                    $output .= $tmp[1] . ':'.$customize.'px!important';
                                 } elseif(strtolower(trim($tmp[1])) == 'customcss'  ){
                                     $output .= $this->_compressCssCode( $customize );
                                 } else {
-                                    $output .= $tmp[1] . ':#'.$customize.'!important';   
+                                    $output .= $tmp[1] . ':#'.$customize.'!important';
                                 }
-                                
+
                                 $output .= "} \r\n";
                             }
                             $cache[$match][] =  array('val'=>$customize,'selector'=>$tmp[0] );
                         }
-                    }   
+                    }
 
                 }
 
@@ -247,11 +246,11 @@ class Generate extends \Magento\Framework\App\Action\Action
                 $this->messageManager->addException($e, __('We can\'t save custom css file right now.'));
                 $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
             }
-            
+
         }
 
        return $this->goBack();
-        
+
     }
 
     protected function goBack($backUrl = null)
@@ -261,7 +260,7 @@ class Generate extends \Magento\Framework\App\Action\Action
         if ($backUrl || $backUrl = $this->_redirect->getRefererUrl()) {
             $resultRedirect->setUrl($backUrl);
         }
-        
+
         return $resultRedirect;
     }
 

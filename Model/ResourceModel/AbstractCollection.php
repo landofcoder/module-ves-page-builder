@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -38,6 +38,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\ResourceModel
      * @var VersionFeaturesFactory
      */
     private $versionFeatures;
+
     private $_flag_store_filter = false;
 
     public function __construct(
@@ -72,7 +73,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\ResourceModel
             $page_stores = array();
 
             $item->setData("store_id", 0);
-            
+
             if($item->getData('block_id')) {
 
               $page_stores = $this->_objectManager->create('Ves\PageBuilder\Model\ResourceModel\Block')->lookupStoreIds($item->getData('block_id'));
@@ -85,7 +86,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\ResourceModel
                 if(!$page_stores) {
                    $page_stores = $cms_page->getStoreId();
                 }
-                
+
                 $select = $connection->select()
                             ->from(['cps'=>$this->getTable($tableName)])
                             ->where('cps.'.$columnName.' = (?)', $cms_page->getPageId());
@@ -113,7 +114,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\ResourceModel
                     $item->setData('store_code', $storeCode);
                 }
                 $item->setData("store_id", $page_stores);
-                            
+
               }
             }
         }
@@ -244,7 +245,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\ResourceModel
                 }
                 $item->setData("widgets", $data_widgets);
             }
-        }     
+        }
         return $this;
     }
 

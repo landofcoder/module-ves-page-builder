@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -64,13 +64,13 @@ abstract class Pagebuilder extends \Magento\Backend\App\Action
     protected $resultPageFactory;
 
     /**
-     * @param \Magento\Backend\App\Action\Context              $context             
-     * @param \Magento\Framework\Registry                      $coreRegistry        
-     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory         
-     * @param \Ves\PageBuilder\Helper\Data                           $viewHelper          
-     * @param \Magento\Framework\View\LayoutFactory            $layoutFactory       
-     * @param \Magento\Framework\View\Result\LayoutFactory     $resultLayoutFactory 
-     * @param \Magento\Framework\View\Result\PageFactory       $resultPageFactory   
+     * @param \Magento\Backend\App\Action\Context              $context
+     * @param \Magento\Framework\Registry                      $coreRegistry
+     * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
+     * @param \Ves\PageBuilder\Helper\Data                           $viewHelper
+     * @param \Magento\Framework\View\LayoutFactory            $layoutFactory
+     * @param \Magento\Framework\View\Result\LayoutFactory     $resultLayoutFactory
+     * @param \Magento\Framework\View\Result\PageFactory       $resultPageFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -80,7 +80,7 @@ abstract class Pagebuilder extends \Magento\Backend\App\Action
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory,
         \Magento\Framework\View\Result\PageFactory $resultPageFactory
-        ) {
+    ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
         $this->_viewHelper = $viewHelper;

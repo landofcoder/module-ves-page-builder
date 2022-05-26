@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2016 Venustheme (http://www.venustheme.com/)
@@ -82,10 +82,10 @@ class Assets extends \Magento\Framework\View\Element\Template
      */
 
 	/**
-	 * @param \Magento\Framework\View\Element\Template\Context                   $context          
-	 * @param \Ves\Themesettings\Model\System\Config\Source\Css\Font\GoogleFonts $_googleFontModel 
-	 * @param \Ves\Themesettings\Helper\Theme                                    $ves              
-	 * @param array                                                              $data             
+	 * @param \Magento\Framework\View\Element\Template\Context                   $context
+	 * @param \Ves\Themesettings\Model\System\Config\Source\Css\Font\GoogleFonts $_googleFontModel
+	 * @param \Ves\Themesettings\Helper\Theme                                    $ves
+	 * @param array                                                              $data
 	 */
 	public function __construct(
 		\Magento\Framework\View\Element\Template\Context $context,
@@ -98,7 +98,7 @@ class Assets extends \Magento\Framework\View\Element\Template
 		\Ves\PageBuilder\Model\Block $blockModel,
 		\Magento\Framework\Registry $registry,
 		array $data = []
-		){
+	) {
 		parent::__construct($context, $data);
 
 		$this->_dataHelper = $dataHelper;
@@ -109,7 +109,7 @@ class Assets extends \Magento\Framework\View\Element\Template
         /*$this->pageConfig = $pageConfig;*/
         $this->_coreRegistry = $registry;
         $this->_blockModel = $blockModel;
-		
+
 	}
 
 	public function getPageId() {
@@ -134,7 +134,7 @@ class Assets extends \Magento\Framework\View\Element\Template
 	                $page->setStoreId($this->_storeManager->getStore()->getId())->load($this->getPageId());
 	                $this->_coreRegistry->register('current_cms_page', $page);
             	}
-                
+
             } else {
                 $page = $this->_page;
             }
@@ -153,7 +153,7 @@ class Assets extends \Magento\Framework\View\Element\Template
 
         if($page_url_key && !$this->_page_settings ) {
             $page_builder = $this->_blockModel->getBlockByAlias($page_url_key, true);
-            
+
             if($page_builder) {
                 $this->_page_settings = $page_builder->getSettings();
                 $this->_page_settings = unserialize($this->_page_settings);

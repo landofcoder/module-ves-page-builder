@@ -77,18 +77,17 @@ class Block extends \Magento\Framework\Model\AbstractModel
     protected $_core_resource;
     protected $_objectManager;
 
-
     /**
      * @param \Magento\Framework\Model\Context                          $context
      * @param \Magento\Framework\Registry                               $registry
      * @param \Magento\Store\Model\StoreManagerInterface                $storeManager
-     * @param \Ves\PageBuilder\Model\ResourceModel\Block|null                      $resource
-     * @param \Ves\PageBuilder\Model\ResourceModel\Block\Collection|null           $resourceCollection
      * @param \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Store\Model\StoreManagerInterface                $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface      $localeDate
      * @param \Magento\Framework\UrlInterface                           $url
      * @param \Ves\PageBuilder\Helper\Data                             $_blockHelper
+     * @param \Ves\PageBuilder\Model\ResourceModel\Block|null                      $resource
+     * @param \Ves\PageBuilder\Model\ResourceModel\Block\Collection|null           $resourceCollection
      * @param array                                                     $data
      */
     public function __construct(
@@ -96,16 +95,16 @@ class Block extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         CustomerSession $customerSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Ves\PageBuilder\Model\ResourceModel\Block $resource = null,
-        \Ves\PageBuilder\Model\ResourceModel\Block\Collection $resourceCollection = null,
         \Magento\Framework\App\ResourceConnection $core_resource,
         \Magento\Framework\UrlInterface $url,
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Ves\PageBuilder\Helper\Data $blockHelper,
         \Magento\Backend\Helper\Data $helperBackend,
+        \Ves\PageBuilder\Model\ResourceModel\Block $resource = null,
+        \Ves\PageBuilder\Model\ResourceModel\Block\Collection $resourceCollection = null,
         array $data = []
-        ) {
+    ) {
         $this->customerSession = $customerSession;
         $this->_storeManager = $storeManager;
         $this->_url = $url;
@@ -127,6 +126,10 @@ class Block extends \Magento\Framework\Model\AbstractModel
         $this->_init('Ves\PageBuilder\Model\ResourceModel\Block');
     }
 
+    /**
+     * Get connection
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface|mixed
+     */
     protected function getConnection()
     {
         if (!$this->_core_write_connection) {
@@ -159,11 +162,14 @@ class Block extends \Magento\Framework\Model\AbstractModel
         return $this->_getResource()->checkIdentifier($identifier, $storeId);
     }
 
-
+    /**
+     * Get block url
+     * @return string
+     */
     public function getUrl()
     {
         $url = $this->_storeManager->getStore()->getBaseUrl();
-        $route = $this->_blockHelper->getConfig('general_settings/route');
+        //$route = $this->_blockHelper->getConfig('general_settings/route');
         $url_prefix = $this->_blockHelper->getConfig('general_settings/url_prefix');
         $urlPrefix = '';
         if($url_prefix){
@@ -206,9 +212,18 @@ class Block extends \Magento\Framework\Model\AbstractModel
         };
         return $url;
     }
-    public function getBlockById($block_id = "", $is_page = false) {
+
+    /**
+     * Get block by id
+     *
+     * @param string|int $block_id
+     * @param bool $is_page
+     * @return \Ves\PageBuilder\Model\Block|null
+     */
+    public function getBlockById($block_id = "", $is_page = false)
+    {
         $customer_group_id = (int)$this->customerSession->getCustomerGroupId();
-        if($block_id) {
+        if ($block_id) {
             $today_date_time  = new \DateTime('today');
             $today_date = $this->_localeDate->formatDateTime(
                                 $today_date_time,
@@ -239,7 +254,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
             }
             $block_entity = $collection->getFirstItem();
 
-            if($block_entity) {
+            if ($block_entity) {
                 $this->getResource()->walkAfterLoad($block_entity);
                 $customer_group = $block_entity->getCustomerGroup();
                 $array_groups = explode(",",$customer_group);
@@ -253,7 +268,15 @@ class Block extends \Magento\Framework\Model\AbstractModel
         }
         return null;
     }
-    public function getBlockByAlias($alias = "", $is_page = false) {
+
+    /**
+     * Get block by alias
+     * @param string $alias
+     * @param bool $is_page
+     * @return \Ves\PageBuilder\Model\Block|null
+     */
+    public function getBlockByAlias($alias = "", $is_page = false)
+    {
         $customer_group_id = (int)$this->customerSession->getCustomerGroupId();
         if($alias) {
             $today_date_time  = new \DateTime('today');
@@ -301,7 +324,13 @@ class Block extends \Magento\Framework\Model\AbstractModel
         return null;
     }
 
-    public function isExpiredPage( $block_profile = null) {
+    /**
+     * is expired page
+     * @param mixed|null
+     * @return bool
+     */
+    public function isExpiredPage( $block_profile = null)
+    {
         $expired = false;
         if($block_profile) {
             $today_date_time  = new \DateTime('today');
@@ -328,7 +357,8 @@ class Block extends \Magento\Framework\Model\AbstractModel
         return $expired;
     }
 
-    public function isCommingSoonPage( $block_profile = null) {
+    public function isCommingSoonPage( $block_profile = null)
+    {
         $comming_soon = false;
         if($block_profile) {
             $today_date_time  = new \DateTime('today');
@@ -356,8 +386,8 @@ class Block extends \Magento\Framework\Model\AbstractModel
         return $comming_soon;
     }
 
-
-    public function isPrivatePage( $block_profile = null) {
+    public function isPrivatePage( $block_profile = null)
+    {
         $private = false;
         if($block_profile ) {
             $customer_group_id = (int)$this->customerSession->getCustomerGroupId();
@@ -370,7 +400,9 @@ class Block extends \Magento\Framework\Model\AbstractModel
         }
         return $private;
     }
-    public function checkBlockProfileAvailable( $block_profile = null ){
+
+    public function checkBlockProfileAvailable( $block_profile = null )
+    {
         $checked = true;
         if($block_profile) {
             if($block_profile->getStatus() != "1") {
@@ -422,7 +454,8 @@ class Block extends \Magento\Framework\Model\AbstractModel
         return $checked;
     }
 
-    public function loadCMSBlock($field_value, $field_name = "identifier", $stores = array(), $withAdmin = true) {
+    public function loadCMSBlock($field_value, $field_name = "identifier", $stores = array(), $withAdmin = true)
+    {
         $is_single_store = false;
         $tmp_stores = $stores;
         $isSingleStoreMode = $this->_storeManager->isSingleStoreMode();
@@ -474,7 +507,8 @@ class Block extends \Magento\Framework\Model\AbstractModel
 
     }
 
-    public function loadCMSPage($field_value, $field_name = "identifier", $stores = array(), $withAdmin = true) {
+    public function loadCMSPage($field_value, $field_name = "identifier", $stores = array(), $withAdmin = true)
+    {
         $is_single_store = false;
         $tmp_stores = $stores;
         $isSingleStoreMode = $this->_storeManager->isSingleStoreMode();
@@ -530,13 +564,15 @@ class Block extends \Magento\Framework\Model\AbstractModel
         return  $this->getImage();
     }
 
-    public function getListWidgets() {
+    public function getListWidgets()
+    {
         $widgets = [];
         $widgets = $this->getResource()->lookupWidgets(0);
         return $widgets;
     }
 
-    public function lookupWidgets($pageId = 0) {
+    public function lookupWidgets($pageId = 0)
+    {
         return $this->getResource()->lookupWidgets($pageId);
     }
 
@@ -555,7 +591,9 @@ class Block extends \Magento\Framework\Model\AbstractModel
         }
         return $params;
     }
-    public function parserShortcode($shortcode) {
+
+    public function parserShortcode($shortcode)
+    {
         $widget_array = [];
         if($shortcode) {
             if(preg_match_all(self::CONSTRUCTION_PATTERN, $shortcode, $constructions, PREG_SET_ORDER)) {
@@ -574,7 +612,8 @@ class Block extends \Magento\Framework\Model\AbstractModel
     }
 
 
-    public function getWidgetInfo($widget_type, $shortcode ) {
+    public function getWidgetInfo($widget_type, $shortcode )
+    {
         $widget = [
                     "title"         => "",
                     "description"   => "",
@@ -716,7 +755,14 @@ class Block extends \Magento\Framework\Model\AbstractModel
         }
         return $widget;
     }
-    public function isBase64Encoded($data) {
+
+    /**
+     * is based 64 encoded
+     * @param mixed $data
+     * @return bool
+     */
+    public function isBase64Encoded($data)
+    {
         if(base64_encode($data) === $data) return false;
         if(base64_encode(base64_decode($data)) === $data){
             return true;
@@ -733,7 +779,6 @@ class Block extends \Magento\Framework\Model\AbstractModel
         // if string returned contains not printable chars
         if (0 < preg_match('/((?![[:graph:]])(?!\s)(?!\p{L}))./', $decoded, $matched)) return false;
         if (!preg_match('%^[a-zA-Z0-9/+]*={0,2}$%', $data)) return false;
-
 
         return false;
     }

@@ -38,7 +38,6 @@ class Extendededitor extends AbstractElement
         $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
-
         $this->_layout = $_layout;
         $this->setType('hidden');
         $this->setExtType('hiddenfield');
@@ -55,6 +54,11 @@ class Extendededitor extends AbstractElement
         return parent::getHtml();
     }
 
+    /**
+     * get element html
+     *
+     * @return string
+     */
     public function getElementHtml()
     {
         $class = 'Ves\BaseWidget\Block\Adminhtml\Editor';
@@ -67,7 +71,7 @@ class Extendededitor extends AbstractElement
         $params['value'] = $this->getEscapedValue();
         $params['model'] = $this->getModelData();
         $id = $this->getBlockId();
-        
+
         $html = '<div class="admin__field field field-prefix_class "><div id="'.$id.'" class="container-fluid editor_wrapper">';
 
         $html .= $this->_layout->createBlock(
@@ -79,7 +83,14 @@ class Extendededitor extends AbstractElement
         return $html;
     }
 
-    public function getLabelHtml($idSuffix = '', $scopeLabel = ''){
+    /**
+     * get labal html
+     * @param string $idSuffix
+     * @param string $scopeLabel
+     * @return string
+     */
+    public function getLabelHtml($idSuffix = '', $scopeLabel = '')
+    {
         $scopeLabel = $scopeLabel ? ' data-config-scope="' . $scopeLabel . '"' : '';
 
         if ($this->getLabel() !== null) {
@@ -94,5 +105,5 @@ class Extendededitor extends AbstractElement
         }
         return $html;
     }
-   
+
 }

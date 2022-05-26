@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -74,7 +74,7 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Model\Product\Action $productAction,
         $connectionName = null
-        ) {
+    ) {
         parent::__construct($context, $connectionName);
         $this->_date = $date;
         $this->_storeManager = $storeManager;
@@ -89,11 +89,12 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
      *
      * @return void
      */
-    protected function _construct(){
+    protected function _construct()
+    {
         $this->_init('ves_blockbuilder_block','block_id');
     }
 
-    
+
     /**
      * Process brand data before deleting
      *
@@ -145,7 +146,7 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
          */
 
         if($object->getBlockType() == "page") {
-            
+
             foreach (['custom_theme_from', 'custom_theme_to'] as $field) {
                 $value = !$object->getData($field) ? null : $object->getData($field);
                 $object->setData($field, $this->dateTime->formatDate($value));
@@ -236,7 +237,7 @@ class Block extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
                             'created'    => date( 'Y-m-d H:i:s' )
                         ];
                     }
-                    
+
                 }
             }
             if ($data) {

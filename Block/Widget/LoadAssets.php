@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -32,10 +32,8 @@ class LoadAssets extends \Magento\Framework\View\Element\Template implements \Ma
 		\Magento\Cms\Model\Block $blockModel,
 		\Ves\PageBuilder\Helper\Data $dataHelper,
 		array $data = []
-		) {
-
+	) {
 		parent::__construct($context, $data);
-
 		$_pageConfig = $context->getPageConfig();
 		$this->_layout = $context->getLayout();
 		$this->_blockModel = $blockModel;
@@ -62,7 +60,7 @@ class LoadAssets extends \Magento\Framework\View\Element\Template implements \Ma
         if(isset($data['template']) && $data['template']) {
         	$my_template = $data['template'];
         }
-		
+
 		$this->setTemplate($my_template);
 
 		//Load Css File on head tag
@@ -70,7 +68,7 @@ class LoadAssets extends \Magento\Framework\View\Element\Template implements \Ma
 		$css_media_condition = $this->getConfig("css_media_condition");
 		$css_media_condition = $css_media_condition?$css_media_condition:"all";
 
-		if($css_path){ //Check if have css path 
+		if($css_path){ //Check if have css path
 			$parsed = parse_url($css_path);
 	        if (!empty($parsed['scheme'])) { //Load external css file
 	           $_pageConfig->addRemotePageAsset($css_path, 'css', [
