@@ -230,7 +230,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                                 \IntlDateFormatter::MEDIUM,
                                 \IntlDateFormatter::MEDIUM
                             );
-            $todayDateTime = strtotime($today_date);
+            $todayDateTime = @strtotime($today_date);
             $todayDate = date("Y-m-d", $todayDateTime);
 
             $store_id = (int)$this->_storeManager->getStore()->getId();
@@ -285,7 +285,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
                                 \IntlDateFormatter::MEDIUM,
                                 \IntlDateFormatter::MEDIUM
                             );
-            $todayDateTime = strtotime($today_date);
+            $todayDateTime = @strtotime($today_date);
             $todayDate = date("Y-m-d", $todayDateTime);
 
             $store_id = (int)$this->_storeManager->getStore()->getId();
@@ -341,11 +341,11 @@ class Block extends \Magento\Framework\Model\AbstractModel
                         \IntlDateFormatter::MEDIUM
                     );
 
-            $todayDateTime = strtotime($todayDate);
+            $todayDateTime = @strtotime($todayDate);
 
             $date_to = $block_profile->getShowTo();
             if($date_to) {
-                $date_to = strtotime($date_to);
+                $date_to = @strtotime($date_to);
             } else {
                 $date_to = 0;
             }
@@ -369,12 +369,12 @@ class Block extends \Magento\Framework\Model\AbstractModel
                         \IntlDateFormatter::MEDIUM
                     );
 
-            $todayDateTime = strtotime($todayDate);
+            $todayDateTime = @strtotime($todayDate);
 
             $date_from = $block_profile->getShowFrom();
 
             if($date_from) {
-                $date_from = strtotime($date_from);
+                $date_from = @strtotime($date_from);
             } else {
                 $date_from = 0;
             }
@@ -426,19 +426,19 @@ class Block extends \Magento\Framework\Model\AbstractModel
                                     \IntlDateFormatter::MEDIUM
                                 );
 
-                        $todayDateTime = strtotime($todayDate);
+                        $todayDateTime = @strtotime($todayDate);
 
 
 
                         if($date_from) {
-                            $date_from = strtotime($date_from);
+                            $date_from = @strtotime($date_from);
                         } else {
                             $date_from = 0;
                         }
 
 
                         if($date_to) {
-                            $date_to = strtotime($date_to);
+                            $date_to = @strtotime($date_to);
                         } else {
                             $date_to = 0;
                         }

@@ -128,8 +128,8 @@ class MassConvertTemplate extends \Magento\Backend\App\Action
         $page_stores = $profile->getStoreId();
         $custom_from_date = $profile->getCustomThemeFrom();
         $custom_to_date = $profile->getCustomThemeTo();
-        $custom_from_date = date("m/d/Y", strtotime($custom_from_date));
-        $custom_to_date = date("m/d/Y", strtotime($custom_to_date));
+        $custom_from_date = date("m/d/Y", @strtotime($custom_from_date));
+        $custom_to_date = date("m/d/Y", @strtotime($custom_to_date));
         $data['page_id'] = $page->getPageId();
         $data['title'] = $prefix_title."".$profile->getTitle();
         $data['identifier'] = $alias;
