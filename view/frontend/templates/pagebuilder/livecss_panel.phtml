@@ -1,6 +1,6 @@
-<?php 
+<?php
  /*------------------------------------------------------------------------
-  # VenusTheme Block Builder Module 
+  # VenusTheme Block Builder Module
   # ------------------------------------------------------------------------
   # author:    VenusTheme.Com
   # copyright: Copyright (C) 2012 http://www.venustheme.com. All Rights Reserved.
@@ -9,7 +9,7 @@
   # Technical Support:  http://www.venustheme.com/
 -------------------------------------------------------------------------*/
 $themeName =  $this->getThemePackage();
- 
+
 $patterns =  $this->getPattern( );
 
 $border_styles = array("hidden", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset", "initial", "inherit");
@@ -23,7 +23,7 @@ $allow_save_editor = Mage::getStoreConfig("ves_livecss/general/allow_save_profil
 
 <script type="text/javascript">
 jQuery(document).ready( function (){
-	jQuery(".ves-paneltool .panelbutton").click( function(){	
+	jQuery(".ves-paneltool .panelbutton").click( function(){
 		jQuery(this).parent().toggleClass("active");
 	} );
 } );
@@ -39,7 +39,7 @@ jQuery(document).ready( function (){
 		<div class="panelcontent editortool">
 			<div class="panelinner">
 				<form action="<?php echo $this->getLiveEditLink(); ?>" enctype="multipart/form-data" method="post" class="clearfix" id="ves_pagebuilder_livecss_form">
-					<h4><?php echo Mage::helper('ves_pagebuilder')->__( 'Live Css Editor' ); ?></h4>					
+					<h4><?php echo Mage::helper('ves_pagebuilder')->__( 'Live Css Editor' ); ?></h4>
 					<?php $xmlselectors = $this->renderEdtiorThemeForm( );?>
 					<?php if($allow_save_editor): ?>
 						<?php
@@ -49,7 +49,7 @@ jQuery(document).ready( function (){
 						?>
 						<p>
 							<span class="badge"><?php echo Mage::helper("ves_pagebuilder")->__("Theme: ");?>: <?php echo $themeName; ?></span>
-						</p>	 	
+						</p>
 
 						<div class="buttons-group">
 							<input type="hidden" name="action-mode" id="ves-action-mode" >
@@ -60,32 +60,32 @@ jQuery(document).ready( function (){
 
 						<div class="groups form-fluid" style="width: 100%">
 							<div class="form-group pull-left" style="width:45%">
-								<label><?php echo Mage::helper("ves_pagebuilder")->__('Css Profiles: '); ?></label>	
+								<label><?php echo Mage::helper("ves_pagebuilder")->__('Css Profiles: '); ?></label>
 								<select name="saved_file" id="ves-saved-files">
 									<option value=""> ------------- </option>
-									<?php foreach( $files as $file ){ $file = str_replace( ".css","", $file); ?>
+									<?php foreach( $files as $file ){ $file = @str_replace( ".css","", $file); ?>
 										<option value="<?php echo $file;?>"><?php echo $file; ?></option>
 									<?php } ?>
-								</select> 
+								</select>
 							</div>
 
 							<div class="form-group pull-left" style="width:45%">
 								<label class="show-for-notexisted"><?php echo Mage::helper("ves_pagebuilder")->__('And Named This:'); ?></label>
 								<label class="show-for-existed"><?php echo Mage::helper("ves_pagebuilder")->__('Rename This'); ?></label>
 								<input type="text" name="newfile" />
-								
-							</div>	
+
+							</div>
 					    </div>
 					<?php endif; ?>
 
 				    <div class="clearfix panel-group" id="ves-customize-body">
 						<ul class="nav nav-tabs" id="ves-pagesbuilder-livecss-tab">
 							<?php foreach( $xmlselectors as $for => $output ) { ?>
-							<li><a href="#ves-livecss-tab-<?php echo $for ?>"><?php echo Mage::helper('ves_pagebuilder')->__(ucfirst($for) );?></a></li>		
+							<li><a href="#ves-livecss-tab-<?php echo $for ?>"><?php echo Mage::helper('ves_pagebuilder')->__(ucfirst($for) );?></a></li>
 							<?php } ?>
 						</ul>
 
-						<div class="tab-content"> 
+						<div class="tab-content">
 						<?php foreach( $xmlselectors as $for => $output ) { ?>
 							<div class="tab-pane" id="ves-livecss-tab-<?php echo $for; ?>">
 								<?php if( !empty( $output) ){?>
@@ -94,7 +94,7 @@ jQuery(document).ready( function (){
 								    <div class="accordion-group  panel panel-default clearfix">
 										<div class="accordion-heading panel-heading">
 											<a class="accordion-toggle" data-toggle="collapse" data-parent="#custom-accordion" href="#collapse<?php echo $group['match'];?>">
-												<?php echo $group['header']; ?>	 
+												<?php echo $group['header']; ?>
 											</a>
 										</div>
 
@@ -102,7 +102,7 @@ jQuery(document).ready( function (){
 											<div class="accordion-inner panel-body clearfix">
 												<?php foreach ($group['selector'] as $k => $item ) {  ?>
 												<?php  if (isset($item['type'])&&$item['type']=="image") { ?>
-												<div class="form-group background-images"> 
+												<div class="form-group background-images">
 													<label data-tooltip="true" data-placement="top" title="<?php echo $this->__("Css Selector: ")." ".$item['selector']; ?>"><?php echo $item['label']?></label>
 													<a class="clear-bg label label-success" href="#">Clear</a>
 													<input value="" name="customize[<?php echo $group['match'];?>][]" data-match="<?php echo $group['match'];?>" type="text" class="input-setting input-background-setting" data-selector="<?php echo $item['selector']?>" data-attrs="background-image" data-image="">
@@ -114,7 +114,7 @@ jQuery(document).ready( function (){
 														<?php } ?>
 													</div>
 												</div>
-											
+
 												<?php } elseif( $item['type'] == "fontsize" ) { ?>
 												<div class="form-group">
 													<label data-tooltip="true" data-placement="top" title="<?php echo $this->__("Css Selector: ")." ".$item['selector']; ?>"><?php echo $item['label']?></label>
@@ -125,7 +125,7 @@ jQuery(document).ready( function (){
 														<?php for( $fs=1; $fs<=32; $fs++ ) { ?>
 														<option value="<?php echo $fs; ?>"><?php echo $fs; ?></option>
 														<?php } ?>
-													</select>	
+													</select>
 													<a href="#" class="clear-bg label label-success">Clear</a>
 												</div>
 
@@ -137,7 +137,7 @@ jQuery(document).ready( function (){
 															<?php foreach ( $border_styles as $item ){ ?>
 															<option value="<?php echo $item; ?>"><?php echo $item; ?></option>
 															<?php } ?>
-														</select>	
+														</select>
 														<a href="#" class="clear-bg label label-success">Clear</a>
 				                                    </div>
 
@@ -182,20 +182,20 @@ jQuery(document).ready( function (){
 											 	<?php } ?>
 										    </div>
 										</div>
-									</div>          	
+									</div>
 								<?php } ?>
 								</div>
 							<?php } ?>
 						</div>
 					    <?php } /* endforeach  */?>
-						</div>   
+						</div>
 					</div>
-				</form>		    
-			</div>		
+				</form>
+			</div>
 		</div>
 		<div class="panelbutton label-customize"></div>
 	</div>
-</div> 
+</div>
 
 <script type="text/javascript">
 
@@ -203,7 +203,7 @@ jQuery('#ves-pagesbuilder-livecss-tab a').click(function (e) {
 	e.preventDefault();
 	jQuery(this).tab('show');
 })
-jQuery('#ves-pagesbuilder-livecss-tab a:first').tab('show'); 
+jQuery('#ves-pagesbuilder-livecss-tab a:first').tab('show');
 
 
 var $VESMAINCONTAINER = jQuery("html");
@@ -215,17 +215,17 @@ var $VESMAINCONTAINER = jQuery("html");
 jQuery(".background-images").each( function(){
 
 	var $parent = this;
-	var $input  = jQuery(".input-background-setting", $parent ); 
+	var $input  = jQuery(".input-background-setting", $parent );
 	jQuery(".bi-wrapper > div",this).click( function(){
-		 $input.val( jQuery(this).data('val') ); 
+		 $input.val( jQuery(this).data('val') );
 		 jQuery('.bi-wrapper > div', $parent).removeClass('active');
 		 jQuery(this).addClass('active');
 
-		 if( $input.data('selector') ){  
+		 if( $input.data('selector') ){
 			jQuery($input.data('selector'), jQuery($VESMAINCONTAINER) ).css( $input.data('attrs'),'url('+ jQuery(this).data('image') +')', 'important' );
 		 }
 	} );
-} ); 
+} );
 
 jQuery(".clear-bg").click( function(){
 	var $parent = jQuery(this).parent();
@@ -233,14 +233,14 @@ jQuery(".clear-bg").click( function(){
 	if($input.length > 0) {
 		if( $input.val('') ) {
 			if( $parent.hasClass("background-images") ) {
-				jQuery('.bi-wrapper > div',$parent).removeClass('active');	
+				jQuery('.bi-wrapper > div',$parent).removeClass('active');
 				jQuery($input.data('selector'),jQuery("#main-preview iframe").contents()).css( $input.data('attrs'),'none' );
 			}else {
-				$input.attr( 'style','' )	
+				$input.attr( 'style','' )
 			}
 			jQuery($input.data('selector'), jQuery($VESMAINCONTAINER) ).css( $input.data('attrs'),'inherit' );
 
-		}	
+		}
 		$input.val('');
 	} else {
 		$input  = jQuery(".textarea-setting", $parent );
@@ -251,7 +251,7 @@ jQuery(".clear-bg").click( function(){
 		}
 		$input.val('');
 	}
-	
+
 
 	return false;
 } );
@@ -282,24 +282,24 @@ jQuery('.accordion-group textarea.textarea-setting').keyup( function() {
 	 	 			} else {
 	 	 				jQuery($VESMAINCONTAINER).find(jQuery(input).data('selector')).css( jQuery(input).data('attrs'),"#"+jQuery(input).val())
 	 	 			}
-					
+
 				}
 	 	 	}
 	 	 });
  	} );
 
-//Input text 
+//Input text
 jQuery('.accordion-group input.input-text').keyup( function() {
 		var input = this;
-		if( jQuery(input).data('selector') ){   
+		if( jQuery(input).data('selector') ){
 			jQuery($VESMAINCONTAINER).find(jQuery(input).data('selector')).css( jQuery(input).data('attrs'), jQuery(input).val() )
 		}
 	})
 
-//Select value 
+//Select value
 jQuery('.accordion-group select.input-setting').change( function(){
-	var input = this; 
-		if( jQuery(input).data('selector') ){  
+	var input = this;
+		if( jQuery(input).data('selector') ){
 		var ex = jQuery(input).data('attrs')=='font-size'?'px':"";
 		jQuery( $VESMAINCONTAINER ).find(jQuery(input).data('selector')).css( jQuery(input).data('attrs'), jQuery(input).val() + ex);
 	}
@@ -309,22 +309,22 @@ jQuery('.accordion-group select.input-setting').change( function(){
 /**
  *  FORM SUBMIT
  */
- jQuery( "#ves_pagebuilder_livecss_form" ).submit( function(){ 
+ jQuery( "#ves_pagebuilder_livecss_form" ).submit( function(){
 	jQuery('.input-setting').each( function(){
 		if( jQuery(this).data("match") ) {
 			var val = jQuery(this).data('selector')+"|"+jQuery(this).data('attrs');
 			jQuery(this).parent().append('<input type="hidden" name="customize_match['+jQuery(this).data("match")+'][]" value="'+val+'"/>');
-		}	 
+		}
 	} );
 
 	jQuery('.textarea-setting').each( function(){
 		if( jQuery(this).data("match") ) {
 			var val = jQuery(this).data('selector')+"|customcss";
 			jQuery(this).parent().append('<input type="hidden" name="customize_match['+jQuery(this).data("match")+'][]" value="'+val+'"/>');
-		}	 
+		}
 	} );
 
-	return true; 
+	return true;
 } );
 
 jQuery(".show-for-existed").hide();
@@ -334,7 +334,7 @@ if(jQuery('#loaded_custom_css_profile').length > 0) {
 }
 jQuery("#ves-saved-files").change( function() {
 
-	if( jQuery(this).val() ){  
+	if( jQuery(this).val() ){
 		jQuery(".show-for-notexisted").hide();
 		jQuery(".show-for-existed").show();
 	}else {
@@ -355,13 +355,13 @@ jQuery("#ves-saved-files").change( function() {
 						var i = 0;
 						jQuery("input, select, textarea", this).each( function(){
 							if( jQuery(this).data('match') ){
-								if( items[jQuery(this).data('match')] && items[jQuery(this).data('match')][i] ){ 
+								if( items[jQuery(this).data('match')] && items[jQuery(this).data('match')][i] ){
 									var el = items[jQuery(this).data('match')][i];
 								 	jQuery(this).val( el.val );
 								 	if( el.val== '') {
 								 		jQuery(this).css('background',"inherit");
 								 	}
-								 	else { 
+								 	else {
 								 		jQuery(this).css('background',"#"+el.val);
 								 	}
 								 	jQuery(this).ColorPickerSetColor(el.val );
@@ -391,7 +391,7 @@ jQuery("#ves-saved-files").change( function() {
 								 			if(jQuery("#vescustomcss-"+index).length > 0 ) {
 								 				jQuery("#vescustomcss-"+index).text( jQuery(this).data('selector') + "{" + jQuery(this).val() + "}" );
 								 			}
-											
+
 
 								 		}
 									}
@@ -400,7 +400,7 @@ jQuery("#ves-saved-files").change( function() {
 								i++;
 							}
 						} );
-						 
+
 					});
 				}
 			})

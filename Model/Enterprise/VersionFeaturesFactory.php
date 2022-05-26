@@ -21,13 +21,11 @@ class VersionFeaturesFactory
     /**
      * VersionFeaturesFactory constructor.
      *
-     * @param ObjectManagerInterface $objectManager
      * @param ProductMetadataInterface $productMetadata
      */
     public function __construct(
         ProductMetadataInterface $productMetadata
-    )
-    {
+    ) {
         $this->productMetadata = $productMetadata;
     }
 

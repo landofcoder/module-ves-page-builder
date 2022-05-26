@@ -23,7 +23,6 @@ class Widget extends \Magento\Framework\App\Action\Action
      */
     protected $_coreRegistry = null;
 
-
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
@@ -38,15 +37,9 @@ class Widget extends \Magento\Framework\App\Action\Action
      * Constructor
      *
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Catalog\Model\Design $catalogDesign
-     * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     * @param \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
-     * @param Resolver $layerResolver
-     * @param CategoryRepositoryInterface $categoryRepository
+     * @param \Ves\PageBuilder\Helper\Data $dataHelper
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -73,9 +66,9 @@ class Widget extends \Magento\Framework\App\Action\Action
     {
         $this->_view->loadLayout();
         $widget_shortcode = $this->getRequest()->getPost('shortcode');
-        $widget_shortcode = str_replace(" ","+", $widget_shortcode);
+        $widget_shortcode = @str_replace(" ","+", $widget_shortcode);
         $widget_shortcode = base64_decode($widget_shortcode);
-        
+
         $html = "";
         $status = false;
         if($widget_shortcode) {
@@ -89,6 +82,6 @@ class Widget extends \Magento\Framework\App\Action\Action
         $this->getResponse()->representJson(
             $this->_objectManager->get('Magento\Framework\Json\Helper\Data')->jsonEncode($data)
             );
-        
+
     }
 }

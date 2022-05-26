@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -30,7 +30,7 @@ use Magento\Customer\Api\Data\GroupInterfaceFactory;
  * PageBuilder Model
  */
 class CustomerGroup extends \Magento\Framework\Model\AbstractModel
-{	
+{
 	const CUST_GROUP_ALL = 32000;
     /**
      * Group Collection
@@ -77,22 +77,20 @@ class CustomerGroup extends \Magento\Framework\Model\AbstractModel
      */
     protected $filterBuilder;
 
-    public function __construct(
+    public function __construct (
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Ves\PageBuilder\Model\ResourceModel\Block $resource = null,
-        \Ves\PageBuilder\Model\ResourceModel\Block\Collection $resourceCollection = null,
         GroupRepositoryInterface $groupRepository,
         GroupInterfaceFactory $groupDataFactory,
         SearchCriteriaBuilder $searchCriteriaBuilder,
         FilterBuilder $filterBuilder,
         \Ves\PageBuilder\Helper\Data $blockHelper,
+        \Ves\PageBuilder\Model\ResourceModel\Block $resource = null,
+        \Ves\PageBuilder\Model\ResourceModel\Block\Collection $resourceCollection = null,
         array $data = []
-        ) {
-
+    ) {
         $this->_blockHelper = $blockHelper;
-        
         $this->_storeManager = $storeManager;
         $this->groupRepository = $groupRepository;
         $this->groupDataFactory = $groupDataFactory;
@@ -101,7 +99,12 @@ class CustomerGroup extends \Magento\Framework\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
-    public function getAllCustomersGroups() {
+    /**
+     * get all customers groups
+     * @return mixed
+     */
+    public function getAllCustomersGroups()
+    {
         $groupAll[] = $this->filterBuilder
             ->setField(GroupInterface::ID)
             ->setConditionType('neq')
@@ -113,6 +116,11 @@ class CustomerGroup extends \Magento\Framework\Model\AbstractModel
         return $this->groupRepository->getList($searchCriteria)->getItems();
     }
 
+    /**
+     * Get customer groups
+     *
+     * @return mixed|array
+     */
     public function getCustomerGroups()
     {
         $data_array = array();
@@ -121,7 +129,7 @@ class CustomerGroup extends \Magento\Framework\Model\AbstractModel
         foreach ($customer_groups as $item_group) {
             $data_array[] = array('value' => $item_group->getId(), 'label' => $item_group->getCode());
         }
-        
+
         return $data_array;
 
     }

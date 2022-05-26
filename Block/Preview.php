@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2017 Venustheme (http://www.venustheme.com/)
@@ -47,11 +47,11 @@ class Preview extends \Ves\PageBuilder\Block\Widget\AbstractWidget
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context            
-     * @param \Magento\Framework\Registry                      $registry           
-     * @param \Ves\PageBuilder\Helper\Data                        $helper             
-     * @param \Ves\PageBuilder\Model\Menu                         $blockmodel               
-     * @param array                                            $data               
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry                      $registry
+     * @param \Ves\PageBuilder\Helper\Data                        $helper
+     * @param \Ves\PageBuilder\Model\Menu                         $blockmodel
+     * @param array                                            $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -60,8 +60,7 @@ class Preview extends \Ves\PageBuilder\Block\Widget\AbstractWidget
         \Ves\PageBuilder\Model\Block $blockmodel,
         \Ves\PageBuilder\Helper\MobileDetect $mobileDetectHelper,
         array $data = []
-        ) {
-
+    ) {
         $this->_helper       = $helper;
         $this->_blockmodel         = $blockmodel;
         $this->_coreRegistry = $registry;
@@ -70,7 +69,7 @@ class Preview extends \Ves\PageBuilder\Block\Widget\AbstractWidget
 
     public function _toHtml() {
         if(!$this->_blockHelper->getConfig('general/show')) return;
-        if(!$this->_blockHelper->getConfig('general/enable_preview')) return;    
+        if(!$this->_blockHelper->getConfig('general/enable_preview')) return;
         $this->setTemplate("Ves_PageBuilder::blockbuilder/default.phtml");
         $blockprofile = $this->getBlockProfile();
         if($blockprofile && !$this->_blockmodel->checkBlockProfileAvailable($blockprofile)) {
@@ -122,7 +121,7 @@ class Preview extends \Ves\PageBuilder\Block\Widget\AbstractWidget
         $base_media_dir = $this->getBaseMediaDir();
 
         $_imageUrl = $base_media_dir.$image;
-       
+
         if (file_exists($_imageUrl)){
             return $base_media_url.$image;
         }
@@ -132,7 +131,7 @@ class Preview extends \Ves\PageBuilder\Block\Widget\AbstractWidget
         if(!$this->_row_phtml) {
             $module_dir = $this->_filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath();
             $file_path = "code/Ves/PageBuilder/view/frontend/templates/blockbuilder/row.phtml";
-            $file_path = str_replace("/", DIRECTORY_SEPARATOR , $file_path);
+            $file_path = @str_replace("/", DIRECTORY_SEPARATOR , $file_path);
 
             $row_phtml_file_path = $module_dir.$file_path;
             if(file_exists($row_phtml_file_path)){

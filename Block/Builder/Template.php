@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2016 Venustheme (http://www.venustheme.com/)
@@ -49,14 +49,14 @@ class Template extends \Magento\Framework\View\Element\Template
 
     /**
      * @var string $_config
-     * 
+     *
      * @access protected
      */
     protected $_listDesc = array();
-    
+
     /**
      * @var string $_config
-     * 
+     *
      * @access protected
      */
     protected $_show = 0;
@@ -80,11 +80,11 @@ class Template extends \Magento\Framework\View\Element\Template
     protected $_blockCollection;
 
     protected $builderHelper;
-   
+
 	/**
-     * @param \Magento\Framework\View\Element\Template\Context $context     
-     * @param \Ves\PageBuilder\Helper\Data                    $_blockHelper 
-     * @param array                                            $data        
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Ves\PageBuilder\Helper\Data                    $_blockHelper
+     * @param array                                            $data
      */
 	public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -95,7 +95,7 @@ class Template extends \Magento\Framework\View\Element\Template
         \Ves\PageBuilder\Helper\Builder $builderHelper,
         EncoderInterface $jsonEncoder,
         array $data = []
-        ) {
+    ) {
         $this->_blockHelper = $blockHelper;
         $this->_coreRegistry = $registry;
         $this->jsonEncoder = $jsonEncoder;
@@ -183,7 +183,7 @@ class Template extends \Magento\Framework\View\Element\Template
         if(isset($settings['custom_css']) && $settings['custom_css']) {
             $html .= '<style type="text/css">'.$settings['custom_css'].'</style>';
         }
-        
+
         return $html;
 
     }
@@ -238,7 +238,7 @@ class Template extends \Magento\Framework\View\Element\Template
 
     public function getRowStyle($row = array()) {
         $custom_css = array();
-        
+
         if(isset($row['bgcolor']) && $row['bgcolor']) {
             $custom_css[] = 'background-color:'.$row['bgcolor'];
         }
@@ -267,7 +267,7 @@ class Template extends \Magento\Framework\View\Element\Template
 
     public function getRowInnerStyle($row = array()) {
         $custom_css = array();
-        
+
         if(isset($row['inbgcolor']) && $row['inbgcolor']) {
             $custom_css[] = 'background-color:'.$row['inbgcolor'];
         }
@@ -342,7 +342,7 @@ class Template extends \Magento\Framework\View\Element\Template
         if(isset($col['margin']) && $col['margin']) {
             $custom_widget_css[] = 'margin:'.$col['margin'];
         }
-        
+
         return $custom_widget_css;
     }
 
@@ -363,9 +363,9 @@ class Template extends \Magento\Framework\View\Element\Template
                             $shortcode = $template_content;
                         }
                     }
-                    
+
                     break;
-                
+
                 default:
                     # code...
                     break;

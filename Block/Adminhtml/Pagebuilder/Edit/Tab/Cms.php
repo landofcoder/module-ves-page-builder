@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2016 Venustheme (http://www.venustheme.com/)
@@ -65,9 +65,9 @@ class Cms extends \Magento\Backend\Block\Widget\Form\Generic implements
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
      * @param \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory
      * @param \Magento\Framework\View\Model\PageLayout\Config\BuilderInterface $pageLayoutBuilder
+     * @param CollectionFactory $pageCollectionFactory
      * @param array $data
      * @param CustomLayoutManagerInterface|null $customLayoutManager
-     * @param CollectionFactory $pageCollectionFactory
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
@@ -76,16 +76,16 @@ class Cms extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
         \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\Framework\View\Model\PageLayout\Config\BuilderInterface $pageLayoutBuilder,
+        CollectionFactory $pageCollectionFactory,
         array $data = [],
-        ?CustomLayoutManagerInterface $customLayoutManager = null,
-        CollectionFactory $pageCollectionFactory
+        ?CustomLayoutManagerInterface $customLayoutManager = null
     ) {
+        parent::__construct($context, $registry, $formFactory, $data);
         $this->collection = $pageCollectionFactory->create();
         $this->collectionFactory = $pageCollectionFactory;
         $this->pageLayoutBuilder = $pageLayoutBuilder;
         $this->_labelFactory = $labelFactory;
         $this->_pageLayout = $pageLayout;
-        parent::__construct($context, $registry, $formFactory, $data);
         $this->customLayoutManager = $customLayoutManager
             ?? ObjectManager::getInstance()->get(CustomLayoutManagerInterface::class);
     }
@@ -127,7 +127,7 @@ class Cms extends \Magento\Backend\Block\Widget\Form\Generic implements
          * Checking if user have permissions to save information
          */
         $isElementDisabled = !$this->_isAllowedAction('Ves_PageBuilder::page_edit');
-        
+
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(['data' => ['html_id_prefix' => 'block_']]);
 
@@ -167,7 +167,7 @@ class Cms extends \Magento\Backend\Block\Widget\Form\Generic implements
         );
         if (!$model->getId()) {
             $model->setRootTemplate($this->_pageLayout->getDefaultValue());
-            $model->setPageLayout($this->_pageLayout->getDefaultValue());
+            $model->setPageLayout("1column");
         }
 
         //List of custom layout files available for current page.

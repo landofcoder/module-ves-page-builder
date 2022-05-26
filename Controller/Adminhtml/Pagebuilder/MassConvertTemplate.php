@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -59,15 +59,15 @@ class MassConvertTemplate extends \Magento\Backend\App\Action
      * @param Filter $filter
      * @param CollectionFactory $collectionFactory
      */
-    public function __construct(Context $context,
-                                Filter $filter, 
-                                CollectionFactory $collectionFactory, 
-                                PostDataProcessor $dataProcessor,
-                                \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory,
-                                \Ves\PageBuilder\Helper\Builder $builderHelper,
-                                \Psr\Log\LoggerInterface $logger
-                                )
-    {
+    public function __construct(
+        Context $context,
+        Filter $filter,
+        CollectionFactory $collectionFactory,
+        PostDataProcessor $dataProcessor,
+        \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory,
+        \Ves\PageBuilder\Helper\Builder $builderHelper,
+        \Psr\Log\LoggerInterface $logger
+    ) {
         $this->filter = $filter;
         $this->collectionFactory = $collectionFactory;
         $this->dataProcessor = $dataProcessor;
@@ -90,8 +90,8 @@ class MassConvertTemplate extends \Magento\Backend\App\Action
             $collection->loadBuilderWidgets();
 
             $this->convertProfiles($collection);
-            
-            /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */    
+
+            /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
             $this->messageManager->addSuccess(__('A total of %1 record(s) have been convert to html content of CMS Pages have prefix: Ves_Template_', $collection->getSize()));
 
         } catch (\Exception $e) {
@@ -128,8 +128,8 @@ class MassConvertTemplate extends \Magento\Backend\App\Action
         $page_stores = $profile->getStoreId();
         $custom_from_date = $profile->getCustomThemeFrom();
         $custom_to_date = $profile->getCustomThemeTo();
-        $custom_from_date = date("m/d/Y", strtotime($custom_from_date));
-        $custom_to_date = date("m/d/Y", strtotime($custom_to_date));
+        $custom_from_date = date("m/d/Y", @strtotime($custom_from_date));
+        $custom_to_date = date("m/d/Y", @strtotime($custom_to_date));
         $data['page_id'] = $page->getPageId();
         $data['title'] = $prefix_title."".$profile->getTitle();
         $data['identifier'] = $alias;
@@ -167,7 +167,7 @@ class MassConvertTemplate extends \Magento\Backend\App\Action
         if(!$page_model->getId()) {
             $this->removeCMSUrlRewrite($data['stores'], $data['identifier']);
         }
-        
+
         if (!$this->dataProcessor->validate($data)) {
             return false;
         }
@@ -203,9 +203,9 @@ class MassConvertTemplate extends \Magento\Backend\App\Action
         $collection->addFieldToFilter("entity_type", self::ENTITY_TYPE)
                    ->addFieldToFilter("request_path", $identifier);
         if($storeId && (count($storeId) > 1 || (count($storeId) == 1 && $storeId[0] != 0))){
-           $collection->addFieldToFilter("store_id", array("in"=> $storeId)); 
+           $collection->addFieldToFilter("store_id", array("in"=> $storeId));
         }
-    
+
         if(0 < $collection->getSize()) {
             foreach($collection->getItems() as $item) {
                 $urlRewriteItem = $this->_objectManager->create('Magento\UrlRewrite\Model\UrlRewrite');

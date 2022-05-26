@@ -59,7 +59,7 @@ class Save extends \Magento\Backend\App\Action
         PostDataProcessor $dataProcessor,
         \Ves\PageBuilder\Helper\Data $dataHelper,
         \Magento\Framework\Filesystem $filesystem
-        ) {
+    ) {
         //$this->_objectManager = $objectManager;
         $this->_fileSystem = $filesystem;
         $this->_viewHelper = $dataHelper;
@@ -166,8 +166,8 @@ class Save extends \Magento\Backend\App\Action
                 $post_data['block_type'] = isset($post_data['block_type'])?$post_data['block_type']:'page';
                 $post_data['container'] = isset($post_data['container'])?$post_data['container']:'1';
                 $post_data['customer_group'] = implode(',', $post_data['customer_group']);
-                $post_data['params'] = str_replace(array("<p>","</p>"), "", $post_data['params'] );
-                $post_data['params'] = trim($post_data['params']);
+                $post_data['params'] = @str_replace(array("<p>","</p>"), "", $post_data['params'] );
+                $post_data['params'] = @trim($post_data['params']);
 
                 $settings['template'] = isset($post_data['template'])?$post_data['template']:'';
                 $settings['code'] = isset($post_data['alias'])?$post_data['alias']:'';
@@ -220,7 +220,7 @@ class Save extends \Magento\Backend\App\Action
                 $data['store_id'] = $post_data['stores'];
                 $data['_first_store_id'] = isset($post_data['stores'][0])?$post_data['stores'][0]:0;
                 $shortcode = $model->getShortcode();
-                $shortcode = str_replace(array("<p>","</p>"), "", $shortcode);
+                $shortcode = @str_replace(array("<p>","</p>"), "", $shortcode);
                 $data['content'] = $shortcode;
                 $data['page_layout'] = isset($post_data['page_layout'])?$post_data['page_layout']:'1column';
                 $data['layout_update_xml'] = isset($post_data['layout_update_xml'])?$post_data['layout_update_xml']:'';

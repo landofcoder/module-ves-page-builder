@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2016 Venustheme (http://www.venustheme.com/)
@@ -32,23 +32,23 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template implements
     protected $_mobileDetect;
 
 	/**
-     * @param \Magento\Framework\View\Element\Template\Context $context     
-     * @param \Ves\PageBuilder\Helper\Data                    $_blockHelper 
-     * @param array                                            $data        
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Ves\PageBuilder\Helper\Data                    $_blockHelper
+     * @param array                                            $data
      */
 	public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Ves\PageBuilder\Helper\Data $blockHelper,
         \Ves\PageBuilder\Helper\MobileDetect $mobileDetectHelper,
         array $data = []
-        ) {
+    ) {
         $this->_blockHelper = $blockHelper;
         $this->_mobileDetect = $mobileDetectHelper;
 
         parent::__construct($context, $data);
 
         $block_type = $this->getConfig("block_type", "block");
-        
+
         $my_template = "";
 
         if($this->hasData("template")) {
@@ -61,7 +61,7 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template implements
         if($my_template) {
             $this->setTemplate($my_template);
         }
-        
+
     }
     public function setBlockId($block_id = '') {
         $this->setData('block_id', $block_id);
@@ -108,7 +108,7 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template implements
 
     public function getRowStyle($row = array()) {
         $custom_css = array();
-        
+
         if(isset($row['bgcolor']) && $row['bgcolor']) {
             $custom_css[] = 'background-color:'.$row['bgcolor'];
         }
@@ -137,7 +137,7 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template implements
 
     public function getRowInnerStyle($row = array()) {
         $custom_css = array();
-        
+
         if(isset($row['inbgcolor']) && $row['inbgcolor']) {
             $custom_css[] = 'background-color:'.$row['inbgcolor'];
         }
@@ -212,7 +212,7 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template implements
         if(isset($col['margin']) && $col['margin']) {
             $custom_widget_css[] = 'margin:'.$col['margin'];
         }
-        
+
         return $custom_widget_css;
     }
 }

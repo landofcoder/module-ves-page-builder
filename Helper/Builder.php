@@ -15,19 +15,24 @@ class Builder extends \Magento\Framework\App\Helper\AbstractHelper
     protected $resultLayoutFactory;
 
     /**
-     * @param \Magento\GoogleOptimizer\Model\Code $code
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\View\Result\LayoutFactory $resultLayoutFactory
-        )
-    {
+    ) {
         parent::__construct($context);
         $this->resultLayoutFactory = $resultLayoutFactory;
     }
 
-    public function generateHtml(\Ves\PageBuilder\Model\Block $block_model, $settings = []) {
-
+    /**
+     * Generate html
+     * @param \Ves\PageBuilder\Model\Block $block_model
+     * @param mixed|array $settings
+     */
+    public function generateHtml(\Ves\PageBuilder\Model\Block $block_model, $settings = [])
+    {
         $block_name = isset($settings['block_name'])?$settings['block_name']:'builder_content_block';
         $template = isset($settings['template'])?$settings['template']:'builder/page.phtml';
         $resultLayout = $this->resultLayoutFactory->create();
@@ -43,8 +48,14 @@ class Builder extends \Magento\Framework\App\Helper\AbstractHelper
         return $template_content;
     }
 
-    public function minifyHtml($data) {
-        $data = trim(preg_replace('/\t+/', '', $data));
+    /**
+     * minify html
+     * @param mixed|string $data
+     * @return mixed|string
+     */
+    public function minifyHtml($data)
+    {
+        $data = @trim(preg_replace('/\t+/', '', $data));
         //$data = preg_replace('/\s+/S', " ", $data);
         return $data;
     }

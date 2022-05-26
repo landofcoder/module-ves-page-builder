@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2016 Venustheme (http://www.venustheme.com/)
@@ -99,10 +99,10 @@ class Livecss extends \Magento\Framework\View\Element\Template
 
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context                   $context          
-     * @param \Ves\Themesettings\Model\System\Config\Source\Css\Font\GoogleFonts $_googleFontModel 
-     * @param \Ves\Themesettings\Helper\Theme                                    $ves              
-     * @param array                                                              $data             
+     * @param \Magento\Framework\View\Element\Template\Context                   $context
+     * @param \Ves\Themesettings\Model\System\Config\Source\Css\Font\GoogleFonts $_googleFontModel
+     * @param \Ves\Themesettings\Helper\Theme                                    $ves
+     * @param array                                                              $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -119,7 +119,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
         ReadFactory $readFactory,
         Url $actionUrlBuilder,
         array $data = []
-        ){
+    ) {
         parent::__construct($context, $data);
 
         $this->_dataHelper = $dataHelper;
@@ -158,7 +158,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
         $path_type = $path_type?$path_type:DirectoryList::PUB;
         return $this->_filesystem->getDirectoryRead($path_type)->getAbsolutePath();
     }
-    
+
 
     public function getCssProfiles() {
         $output = array();
@@ -174,7 +174,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
             $files = glob( $path.'*' );
             foreach( $files as $dir ){
                 if( preg_match("#.png|.jpg|.gif#", $dir)){
-                    $output[] = str_replace("","",basename( $dir ) );
+                    $output[] = @str_replace("","",basename( $dir ) );
                 }
             }
         }
@@ -182,11 +182,11 @@ class Livecss extends \Magento\Framework\View\Element\Template
     }
     public function getCustomizeFolderURL( $custom_css_folder_path = "" ) {
         if($custom_css_folder_path) {
-            $custom_css_folder_path = str_replace(DIRECTORY_SEPARATOR, "/", $custom_css_folder_path);
+            $custom_css_folder_path = @str_replace(DIRECTORY_SEPARATOR, "/", $custom_css_folder_path);
         } else{
             $custom_css_folder_path = $this->_default_css_folder;
         }
-        
+
 
         return $this->getBaseUrl()."pub/".$custom_css_folder_path."/";
     }
@@ -203,7 +203,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
         if(!$profile_name) {
             $profile_name = $this->getBlockHelper()->getConfig("general/live_profile", null, "default", "veslivecss");
         }
-        
+
         $path = $this->getPubDirPath() .'pagebuilder'.DIRECTORY_SEPARATOR.'livecss'.DIRECTORY_SEPARATOR.'profiles'.DIRECTORY_SEPARATOR.$profile_name.".xml";
         if(!file_exists($path)) {
             $path = $this->getPubDirPath() .'pagebuilder'.DIRECTORY_SEPARATOR.'livecss'.DIRECTORY_SEPARATOR.'profiles'.DIRECTORY_SEPARATOR."default.xml";
@@ -283,15 +283,15 @@ class Livecss extends \Magento\Framework\View\Element\Template
                     if(strpos($file_name, $filter_pattern) !== false) {
                         $output[] = basename( $dir );
                     }
-                    
+
                 } else {
                     $output[] = basename( $dir );
                 }
-                
-            }  
+
+            }
         }
-                 
-        
+
+
         return $output;
     }
 
@@ -312,7 +312,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
             $files = glob( $path.'*' );
             foreach( $files as $dir ){
                 if( preg_match("#.png|.jpg|.gif#", $dir)){
-                    $output[] = str_replace("","",basename( $dir ) );
+                    $output[] = @str_replace("","",basename( $dir ) );
                 }
             }
         }
@@ -332,9 +332,9 @@ class Livecss extends \Magento\Framework\View\Element\Template
         $adminIp = null;
 
         if (1 == $allowFrontendForAdmins && $this->_isAdminLoggedIn()) {
-            
+
             return true;
-            
+
         }
         if(!$allowedIPsString) {
             return true;
@@ -344,12 +344,12 @@ class Livecss extends \Magento\Framework\View\Element\Template
 
         $allowedIPs = array();
 
-        if ('' !== trim($allowedIPsString)) {
+        if ('' !== @trim($allowedIPsString)) {
             $allowedIPs = explode(',', $allowedIPsString);
         }
 
         $currentIP = $_SERVER['REMOTE_ADDR'];
-        
+
         if(empty($allowedIPs) || in_array($currentIP, $allowedIPs)) {
             // current user allowed to access website?
             return true;

@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2016 Venustheme (http://www.venustheme.com/)
@@ -24,8 +24,6 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Builder extends AbstractWidget
 {
-
-
     /**
      * Block Collection
      */
@@ -59,14 +57,14 @@ class Builder extends AbstractWidget
 
     /**
      * @var string $_config
-     * 
+     *
      * @access protected
      */
     protected $_listDesc = array();
-    
+
     /**
      * @var string $_config
-     * 
+     *
      * @access protected
      */
     protected $_show = 0;
@@ -76,13 +74,13 @@ class Builder extends AbstractWidget
     protected $_banner = null;
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context         
-     * @param \Magento\Framework\Registry                      $registry 
+     * @param \Magento\Framework\View\Element\Template\Context $context
+     * @param \Magento\Framework\Registry                      $registry
      * @param \Magento\Framework\Filesystem                    $filesystem,
-     * @param \Magento\Store\Model\StoreManagerInterface       $storeManager,       
-     * @param \Ves\PageBuilder\Helper\Data                    $blockHelper     
-     * @param \Ves\PageBuilder\Model\Block                    $blockCollection 
-     * @param array                                            $data            
+     * @param \Magento\Store\Model\StoreManagerInterface       $storeManager,
+     * @param \Ves\PageBuilder\Helper\Data                    $blockHelper
+     * @param \Ves\PageBuilder\Model\Block                    $blockCollection
+     * @param array                                            $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -94,7 +92,7 @@ class Builder extends AbstractWidget
         \Magento\Framework\App\Http\Context $httpContext,
         \Ves\PageBuilder\Helper\MobileDetect $mobileDetectHelper,
         array $data = []
-        ) {
+    ) {
         $this->_blockCollection = $blockCollection;
         $this->_blockHelper = $blockHelper;
         $this->_coreRegistry = $registry;
@@ -146,12 +144,12 @@ class Builder extends AbstractWidget
         $conditions
         ];
     }
-    
+
     public function _toHtml()
     {
 
         if(!$this->_blockHelper->getConfig('general/show')) return;
-       
+
         $block_id = $this->getConfig("block_id");
         $block_id = $block_id?$block_id:0;
         $code = $this->getConfig('code');
@@ -189,7 +187,7 @@ class Builder extends AbstractWidget
         }
 
         return;
-        
+
     }
 
     public function renderWidgetShortcode( $shortcode = "") {
@@ -213,7 +211,7 @@ class Builder extends AbstractWidget
         $base_media_dir = $this->getBaseMediaDir();
 
         $_imageUrl = $base_media_dir.$image;
-       
+
         if (file_exists($_imageUrl)){
             return $base_media_url.$image;
         }
@@ -223,7 +221,7 @@ class Builder extends AbstractWidget
         if(!$this->_row_phtml) {
             $module_dir = $this->_filesystem->getDirectoryRead(DirectoryList::APP)->getAbsolutePath();
             $file_path = "code/Ves/PageBuilder/view/frontend/templates/blockbuilder/row.phtml";
-            $file_path = str_replace("/", DIRECTORY_SEPARATOR , $file_path);
+            $file_path = @str_replace("/", DIRECTORY_SEPARATOR , $file_path);
 
             $row_phtml_file_path = $module_dir.$file_path;
             if(file_exists($row_phtml_file_path)){

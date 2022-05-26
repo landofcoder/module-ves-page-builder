@@ -24,7 +24,6 @@ class Generate extends \Magento\Framework\App\Action\Action
      */
     protected $_coreRegistry = null;
 
-
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
@@ -91,7 +90,7 @@ class Generate extends \Magento\Framework\App\Action\Action
 
         $allowedIPs = array();
 
-        if ('' !== trim($allowedIPsString)) {
+        if ('' !== @trim($allowedIPsString)) {
             $allowedIPs = explode(',', $allowedIPsString);
         }
 
@@ -112,7 +111,7 @@ class Generate extends \Magento\Framework\App\Action\Action
 
         return false;
     }
-    
+
     protected function _getSession()
     {
         if ($this->_adminSession === null) {
@@ -173,7 +172,7 @@ class Generate extends \Magento\Framework\App\Action\Action
         if(!$show || !$allow_save_profile || !$this->isAllowCurrentIp()) {
             return $this->goBack();
         }
-        
+
         if ($data = $this->getRequest()->getPost()) {
             $selectors = $data['customize'];
             $matches = $data["customize_match"];
@@ -192,23 +191,23 @@ class Generate extends \Magento\Framework\App\Action\Action
                         if( isset($matches[$match]) && isset($matches[$match][$key]) ){
                             $tmp = explode("|", $matches[$match][$key]);
 
-                            if( trim($customize) ) {
+                            if( @trim($customize) ) {
                                 $output .= $tmp[0]." { ";
-                                if( strtolower(trim($tmp[1])) == 'background-image'){
+                                if( strtolower(@trim($tmp[1])) == 'background-image'){
                                     $output .= $tmp[1] . ':url('.$customize .')!important';
-                                } elseif( strtolower(trim($tmp[1])) == 'font-size' ){
-                                    $output .= $tmp[1] . ':'.$customize.'px!important';   
-                                } elseif(strtolower(trim($tmp[1])) == 'customcss'  ){
+                                } elseif( strtolower(@trim($tmp[1])) == 'font-size' ){
+                                    $output .= $tmp[1] . ':'.$customize.'px!important';
+                                } elseif(strtolower(@trim($tmp[1])) == 'customcss'  ){
                                     $output .= $this->_compressCssCode( $customize );
                                 } else {
-                                    $output .= $tmp[1] . ':#'.$customize.'!important';   
+                                    $output .= $tmp[1] . ':#'.$customize.'!important';
                                 }
-                                
+
                                 $output .= "} \r\n";
                             }
                             $cache[$match][] =  array('val'=>$customize,'selector'=>$tmp[0] );
                         }
-                    }   
+                    }
 
                 }
 
@@ -225,7 +224,7 @@ class Generate extends \Magento\Framework\App\Action\Action
                     if( isset($data['newfile']) && empty($data['newfile']) ){
                         $nameFile = time();
                     }else {
-                        $nameFile = preg_replace("#\s+#", "-", trim($data['newfile']));
+                        $nameFile = preg_replace("#\s+#", "-", @trim($data['newfile']));
                     }
                 }
 
@@ -247,11 +246,11 @@ class Generate extends \Magento\Framework\App\Action\Action
                 $this->messageManager->addException($e, __('We can\'t save custom css file right now.'));
                 $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
             }
-            
+
         }
 
        return $this->goBack();
-        
+
     }
 
     protected function goBack($backUrl = null)
@@ -261,18 +260,18 @@ class Generate extends \Magento\Framework\App\Action\Action
         if ($backUrl || $backUrl = $this->_redirect->getRefererUrl()) {
             $resultRedirect->setUrl($backUrl);
         }
-        
+
         return $resultRedirect;
     }
 
     private function _compressCssCode( $input_text = "") {
-        $output = str_replace(array("\r\n", "\r"), "\n", $input_text);
+        $output = @str_replace(array("\r\n", "\r"), "\n", $input_text);
         $lines = explode("\n", $input_text);
         $new_lines = array();
 
         foreach ($lines as $i => $line) {
             if(!empty($line))
-                $new_lines[] = trim($line);
+                $new_lines[] = @trim($line);
         }
         return implode($new_lines);
     }
