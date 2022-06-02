@@ -237,18 +237,20 @@ class Block extends \Magento\Framework\Model\AbstractModel
             $collection = $this->getCollection()
                                 ->addFieldToFilter('block_id', $block_id)
                                 ->addFieldToFilter('status', 1)
-                                ->addFieldToFilter('show_from', array('or'=> array(
-                                    0 => array('date' => true, 'lt' => $todayDate),
-                                    1 => array('is' => new \Zend_Db_Expr('null')),
-                                    2 => array('eq' => '0000-00-00 00:00:00'))
+                                ->addFieldToFilter('show_from',
+                                array('or'=>
+                                        array(
+                                        0 => array('date' => true, 'lt' => $todayDate),
+                                        1 => array('is' => new \Zend_Db_Expr('null'))
+                                    )
                                 ), 'left')
                                 ->addFieldToFilter('show_to', array('or'=> array(
                                     0 => array('date' => true, 'gteq' => $todayDate),
-                                    1 => array('is' => new \Zend_Db_Expr('null')),
-                                    2 => array('eq' => '0000-00-00 00:00:00'))
+                                    1 => array('is' => new \Zend_Db_Expr('null'))
+                                    )
                                 ), 'left');
 
-            if($is_page) {
+            if ($is_page) {
                 $collection->addStoreFilter($store_id);
                 $collection->addFieldToFilter('block_type', "page");
             }
@@ -294,13 +296,13 @@ class Block extends \Magento\Framework\Model\AbstractModel
                                 ->addFieldToFilter('status', 1)
                                 ->addFieldToFilter('show_from', array('or'=> array(
                                     0 => array('date' => true, 'lt' => $todayDate),
-                                    1 => array('is' => new \Zend_Db_Expr('null')),
-                                    2 => array('eq' => ''))
+                                    1 => array('is' => new \Zend_Db_Expr('null'))
+                                    )
                                 ), 'left')
                                 ->addFieldToFilter('show_to', array('or'=> array(
                                     0 => array('date' => true, 'gteq' => $todayDate),
-                                    1 => array('is' => new \Zend_Db_Expr('null')),
-                                    2 => array('eq' => '0000-00-00 00:00:00'))
+                                    1 => array('is' => new \Zend_Db_Expr('null'))
+                                    )
                                 ), 'left');
 
             if($is_page) {
