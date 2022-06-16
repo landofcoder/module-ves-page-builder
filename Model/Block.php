@@ -314,7 +314,7 @@ class Block extends \Magento\Framework\Model\AbstractModel
             if($block_entity) {
                 $this->getResource()->walkAfterLoad($block_entity);
                 $customer_group = $block_entity->getCustomerGroup();
-                $array_groups = explode(",",$customer_group);
+                $array_groups = !empty($customer_group) ? explode(",",$customer_group) : [];
                 if($array_groups && in_array(0, $array_groups)){
                     return $block_entity;
                 } elseif( $array_groups && in_array($customer_group_id, $array_groups)) {
