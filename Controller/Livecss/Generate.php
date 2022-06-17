@@ -33,6 +33,7 @@ class Generate extends \Magento\Framework\App\Action\Action
      * @var CategoryRepositoryInterface
      */
     protected $_dataHelper;
+
      /**
      * @var \Magento\Cms\Model\Template\FilterProvider
      */
@@ -46,24 +47,14 @@ class Generate extends \Magento\Framework\App\Action\Action
     protected $_adminSession = null;
 
     /**
-     * Retrieve admin session model
-     *
-     * @return AuthSession|Session|mixed|null
-     */
-
-    /**
      * Constructor
      *
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Catalog\Model\Design $catalogDesign
-     * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     * @param \Magento\Framework\Controller\Result\ForwardFactory $resultForwardFactory
-     * @param Resolver $layerResolver
-     * @param CategoryRepositoryInterface $categoryRepository
+     * @param \Magento\Framework\Filesystem $filesystem
+     * @param \Magento\Backend\Model\Auth\Session $authSession
+     * @param \Ves\PageBuilder\Helper\Data $dataHelper
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -82,7 +73,13 @@ class Generate extends \Magento\Framework\App\Action\Action
         $this->_adminSession = $authSession;
     }
 
-    public function isAllowCurrentIp() {
+    /**
+     * Check is allow current ip address
+     *
+     * @return bool
+     */
+    public function isAllowCurrentIp()
+    {
         $allowedIPsString = $this->_dataHelper->getConfig("general/allowedIPs", null, "", "veslivecss");
 
         // remove spaces from string
@@ -98,7 +95,7 @@ class Generate extends \Magento\Framework\App\Action\Action
 
         $allowFrontendForAdmins = $this->_dataHelper->getConfig("general/allowFrontendForAdmins", null, "1", "veslivecss");
 
-        $adminIp = null;
+        //$adminIp = null;
 
         if (1 == $allowFrontendForAdmins && $this->_isAdminLoggedIn()) {
             return true;
@@ -112,6 +109,11 @@ class Generate extends \Magento\Framework\App\Action\Action
         return false;
     }
 
+    /**
+     * get session
+     *
+     * @return \Magento\Backend\Model\Auth\Session
+     */
     protected function _getSession()
     {
         if ($this->_adminSession === null) {
@@ -120,32 +122,50 @@ class Generate extends \Magento\Framework\App\Action\Action
         return $this->_adminSession;
     }
 
-    protected function _isAdminLoggedIn() {
+    /**
+     * Is admin logged in
+     *
+     * @return bool
+     */
+    protected function _isAdminLoggedIn()
+    {
         $admin_session = $this->_getSession();
-        if($admin_session) {
-            if($admin_user = $admin_session->getUser()) {
+        if ($admin_session) {
+            if ($admin_user = $admin_session->getUser()) {
                 $admin_user_id = $admin_user->getUserId();
-                if(0 < (int)$admin_user_id) {
+                if (0 < (int)$admin_user_id) {
                     return true;
                 }
             }
         } else {
-            if(isset($_SESSION['logged_admin']) && $_SESSION['logged_admin']) {
-                return (isset($_SESSION['logged_admin'][0]) && session_id($_SESSION['logged_admin'][0]))?true:false;
+            if (isset($_SESSION['logged_admin']) && $_SESSION['logged_admin']) {
+                return (isset($_SESSION['logged_admin'][0]) && session_id($_SESSION['logged_admin'][0])) ? true : false;
             }
         }
         return false;
     }
 
-    private  function getPubDirPath( $path_type = "") {
+    /**
+     * get public dir path
+     *
+     * @param string $path_type
+     * @return string
+     */
+    private  function getPubDirPath( $path_type = "")
+    {
         $path_type = $path_type?$path_type:DirectoryList::PUB;
         return $this->_filesystem->getDirectoryRead($path_type)->getAbsolutePath();
     }
 
-    private function getCustomizePath( $custom_css_folder_path = ""){
+    /**
+     * private get customize path
+     *
+     * @param string $custom_css_folder_path
+     * @return string
+     */
+    private function getCustomizePath( $custom_css_folder_path = "")
+    {
         $path = $this->getPubDirPath() .'pagebuilder'.DIRECTORY_SEPARATOR.'livecss'.DIRECTORY_SEPARATOR.'customize'.DIRECTORY_SEPARATOR;
-
-
         if($custom_css_folder_path) {
             $custom_css_folder_path = $this->getPubDirPath().$custom_css_folder_path.DIRECTORY_SEPARATOR;
             if(is_dir($custom_css_folder_path)) {
@@ -165,7 +185,6 @@ class Generate extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-
         $show = $this->_dataHelper->getConfig('general/show', null, 0, 'veslivecss');
         $allow_save_profile = $this->_dataHelper->getConfig("general/allow_save_profile", null, "0", "veslivecss");
 
@@ -175,9 +194,11 @@ class Generate extends \Magento\Framework\App\Action\Action
 
         if ($data = $this->getRequest()->getPost()) {
             $selectors = $data['customize'];
+            $selectors = !empty($selectors) && is_array($selectors) ? $selectors : [];
             $matches = $data["customize_match"];
+            $matches = !empty($matches) && is_array($matches) ? $matches : [];
             $save_path = $data['save_path'];
-            $pattern_base_url = $data['pattern_base_url'];
+            //$pattern_base_url = $data['pattern_base_url'];
 
             $output = '';
             $cache = array();
@@ -211,28 +232,28 @@ class Generate extends \Magento\Framework\App\Action\Action
 
                 }
 
-                if(  !empty($data['saved_file'])  ){
+                if ( !empty($data['saved_file'])  ) {
 
-                    if( $data['saved_file'] && file_exists($themeCustomizePath.$data['saved_file'].'.css') ){
+                    if ( $data['saved_file'] && file_exists($themeCustomizePath.$data['saved_file'].'.css') ) {
                         unlink( $themeCustomizePath.$data['saved_file'].'.css' );
                     }
-                    if( $data['saved_file'] && file_exists($themeCustomizePath.$data['saved_file'].'.json') ){
+                    if ( $data['saved_file'] && file_exists($themeCustomizePath.$data['saved_file'].'.json') ) {
                         unlink( $themeCustomizePath.$data['saved_file'].'.json' );
                     }
                     $nameFile = $data['saved_file'];
-                }else {
-                    if( isset($data['newfile']) && empty($data['newfile']) ){
+                } else {
+                    if( isset($data['newfile']) && empty($data['newfile']) ) {
                         $nameFile = time();
-                    }else {
+                    } else {
                         $nameFile = preg_replace("#\s+#", "-", @trim($data['newfile']));
                     }
                 }
 
-                if( $data['action-mode'] != 'save-delete' ){
-                    if( !empty($output) ){
+                if ( $data['action-mode'] != 'save-delete' ) {
+                    if ( !empty($output) ) {
                         $this->_dataHelper->writeToCache( $themeCustomizePath, $nameFile, $output );
                     }
-                    if( !empty($cache) ){
+                    if ( !empty($cache) ) {
                         $this->_dataHelper->writeToCache(  $themeCustomizePath, $nameFile, json_encode($cache), "json" );
                     }
 
@@ -253,6 +274,12 @@ class Generate extends \Magento\Framework\App\Action\Action
 
     }
 
+    /**
+     * go back
+     *
+     * @param string|null $backUrl
+     * @return mixed
+     */
     protected function goBack($backUrl = null)
     {
         $resultRedirect = $this->resultRedirectFactory->create();
@@ -264,15 +291,22 @@ class Generate extends \Magento\Framework\App\Action\Action
         return $resultRedirect;
     }
 
-    private function _compressCssCode( $input_text = "") {
-        $output = @str_replace(array("\r\n", "\r"), "\n", $input_text);
+    /**
+     * compress css code
+     *
+     * @param string $input_text
+     * @return string
+     */
+    private function _compressCssCode( $input_text = "")
+    {
+        //$output = @str_replace(array("\r\n", "\r"), "\n", $input_text);
         $lines = explode("\n", $input_text);
         $new_lines = array();
 
         foreach ($lines as $i => $line) {
-            if(!empty($line))
+            if (!empty($line))
                 $new_lines[] = @trim($line);
         }
-        return implode($new_lines);
+        return $new_lines ? implode($new_lines) : "";
     }
 }
