@@ -172,7 +172,7 @@ class Builder extends AbstractWidget
 
         if($this->_banner) {
             $params = $this->_banner->getParams();
-            $params = \Zend_Json::decode($params);
+            $params = \Laminas\Json\Json::decode($params, 1);
             $block_widgets = $this->_banner->getWidgets();
             $this->assign("block_id", "block-".$block_id." ".$code);
             $this->assign("layouts", $params);

@@ -142,7 +142,7 @@ class Template extends \Magento\Framework\View\Element\Template
     public function _toHtml() {
         if($this->_profile) {
             $params = $this->_profile->getParams();
-            $params = \Zend_Json::decode($params);
+            $params = \Laminas\Json\Json::decode($params, 1);
 
             $block_widgets = $this->_profile->getWidgets();
 

@@ -79,7 +79,7 @@ class Preview extends \Ves\PageBuilder\Block\Widget\AbstractWidget
             $block_id = $blockprofile->getId();
             $code = $blockprofile->getAlias();
             $params = $blockprofile->getParams();
-            $params = \Zend_Json::decode($params);
+            $params = \Laminas\Json\Json::decode($params, 1);
             $block_widgets = $blockprofile->getWidgets();
             $this->assign("block_id", "block-".$block_id." ".$code);
             $this->assign("layouts", $params);
