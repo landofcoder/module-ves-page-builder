@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- *
+ * 
  * NOTICE OF LICENSE
- *
+ * 
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- *
+ * 
  * DISCLAIMER
- *
+ * 
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- *
+ * 
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2016 Venustheme (http://www.venustheme.com/)
@@ -26,6 +26,7 @@ use Magento\Customer\Model\Context;
 
 class Page extends AbstractWidget
 {
+
 
     /**
      * Block Collection
@@ -56,14 +57,14 @@ class Page extends AbstractWidget
 
     /**
      * @var string $_config
-     *
+     * 
      * @access protected
      */
     protected $_listDesc = array();
-
+    
     /**
      * @var string $_config
-     *
+     * 
      * @access protected
      */
     protected $_show = 0;
@@ -87,13 +88,13 @@ class Page extends AbstractWidget
     protected $response;
 
     /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Framework\Registry                      $registry
+     * @param \Magento\Framework\View\Element\Template\Context $context         
+     * @param \Magento\Framework\Registry                      $registry 
      * @param \Magento\Framework\Filesystem                    $filesystem,
-     * @param \Magento\Store\Model\StoreManagerInterface       $storeManager,
-     * @param \Ves\PageBuilder\Helper\Data                    $blockHelper
-     * @param \Ves\PageBuilder\Model\Block                    $blockCollection
-     * @param array                                            $data
+     * @param \Magento\Store\Model\StoreManagerInterface       $storeManager,       
+     * @param \Ves\PageBuilder\Helper\Data                    $blockHelper     
+     * @param \Ves\PageBuilder\Model\Block                    $blockCollection 
+     * @param array                                            $data            
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
@@ -109,7 +110,7 @@ class Page extends AbstractWidget
         \Magento\Framework\App\Response\Http $response,
         \Magento\Customer\Model\Session $customerSession,
         array $data = []
-    ) {
+        ) {
         $this->_blockCollection = $blockCollection;
         $this->_blockHelper = $blockHelper;
         $this->_coreRegistry = $registry;
@@ -126,7 +127,7 @@ class Page extends AbstractWidget
         $this->setTemplate("pagebuilder/default.phtml");
     }
 
-
+    
     /**
      * {@inheritdoc}
      */
@@ -175,9 +176,9 @@ class Page extends AbstractWidget
 
     public function _prepareLayout()
     {
-
+        
         if(!$this->_blockHelper->getConfig('general/show')) return parent::_prepareLayout();
-
+       
         $block_id = $this->getConfig("block_id");
         $block_id = $block_id?$block_id:0;
         $code = $this->getConfig('code');
@@ -205,7 +206,7 @@ class Page extends AbstractWidget
 
         if($this->_banner) {
             $params = $this->_banner->getParams();
-            $params = \Laminas\Json\Json::decode($params, 1);
+            $params = \Laminas\Json\Json::decode($params);
 
             $block_widgets = $this->_banner->getWidgets();
 
@@ -379,7 +380,7 @@ class Page extends AbstractWidget
             }
         }
         $cms_block_html = "";
-        if($cms_block_id) {
+        if($cms_block_id) { 
             $cms_block_html = $this->_blockModel->load($cms_block_id)->getContent();
             $cms_block_html = $this->_blockHelper->filter($cms_block_html);
         }
