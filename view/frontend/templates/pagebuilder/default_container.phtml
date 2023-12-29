@@ -4,6 +4,9 @@ $level = !isset($level)?1:$level;
 $rows = isset($rows)?$rows:$layouts;
 
 foreach ( $rows as $row) {
+if ($row instanceof stdClass){
+    $row =json_decode(json_encode($row),true);
+}
  			$row['level'] = ($level == 3)?2:$level;
  			$row['css'] = isset($row['css'])?';'.@str_replace("\n","", $row['css']):'';
  			$row['attrs'] = isset($row['attrs'])?$row['attrs']:'';

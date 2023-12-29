@@ -1,18 +1,18 @@
 <?php
 /**
  * Venustheme
- * 
+ *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Venustheme.com license that is
  * available through the world-wide-web at this URL:
  * http://www.venustheme.com/license-agreement.html
- * 
+ *
  * DISCLAIMER
- * 
+ *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
- * 
+ *
  * @category   Venustheme
  * @package    Ves_PageBuilder
  * @copyright  Copyright (c) 2014 Venustheme (http://www.venustheme.com/)
@@ -50,13 +50,13 @@ class PageActions extends Column
     private $convertUrl;
 
     /**
-     * @param ContextInterface   $context            
-     * @param UiComponentFactory $uiComponentFactory 
-     * @param UrlBuilder         $actionUrlBuilder   
-     * @param UrlInterface       $urlBuilder         
-     * @param array              $components         
-     * @param array              $data               
-     * @param [type]             $editUrl            
+     * @param ContextInterface   $context
+     * @param UiComponentFactory $uiComponentFactory
+     * @param UrlBuilder         $actionUrlBuilder
+     * @param UrlInterface       $urlBuilder
+     * @param array              $components
+     * @param array              $data
+     * @param [type]             $editUrl
      */
     public function __construct(
         ContextInterface $context,
@@ -93,8 +93,8 @@ class PageActions extends Column
                         'href' => $this->urlBuilder->getUrl(self::BLOCK_URL_PATH_DELETE, ['block_id' => $item['block_id']]),
                         'label' => __('Delete'),
                         'confirm' => [
-                            'title' => __('Delete ${ $.$data.title }'),
-                            'message' => __('Are you sure you wan\'t to delete a ${ $.$data.title } record?')
+                            'title' => __("Delete ".$item['title']),
+                            'message' => __("Are you sure you wan\'t to delete a ".$item['title']." record?")
                         ]
                     ];
                     $item[$name]['converttemplate'] = [

@@ -54,7 +54,7 @@ class PostDataProcessor
             }
         }
 
-        return (new \Zend_Filter_Input($filterRules, [], $data))->getUnescaped();
+        return (new \Magento\Framework\Filter\FilterInput($filterRules, [], $data))->getUnescaped();
     }
 
     /**
@@ -65,7 +65,7 @@ class PostDataProcessor
      */
     public function filterOld($data)
     {
-        $inputFilter = new \Zend_Filter_Input(
+        $inputFilter = new \Magento\Framework\Filter\FilterInput(
             ['custom_theme_from' => $this->dateFilter, 'custom_theme_to' => $this->dateFilter],
             [],
             $data

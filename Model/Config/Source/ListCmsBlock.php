@@ -22,6 +22,10 @@ namespace Ves\PageBuilder\Model\Config\Source;
 class ListCmsBlock implements \Magento\Framework\Option\ArrayInterface
 {
 	protected  $_blockModel;
+    /**
+     * @var \Magento\Cms\Model\Block
+     */
+    protected $_groupModel;
 
     /**
      * @param \Magento\Cms\Model\Block $blockModel
