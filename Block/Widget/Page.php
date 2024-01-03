@@ -23,6 +23,7 @@ namespace Ves\PageBuilder\Block\Widget;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Json\EncoderInterface;
 use Magento\Customer\Model\Context;
+use Ves\PageBuilder\Helper\SerializeService;
 
 class Page extends AbstractWidget
 {
@@ -205,7 +206,7 @@ class Page extends AbstractWidget
 
         if($this->_banner) {
             $params = $this->_banner->getParams();
-            $params = \Zend_Json::decode($params);
+            $params = SerializeService::decode($params);
 
             $block_widgets = $this->_banner->getWidgets();
 

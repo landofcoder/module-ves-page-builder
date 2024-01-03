@@ -20,6 +20,8 @@
  */
 
 namespace Ves\PageBuilder\Block;
+
+use Ves\PageBuilder\Helper\SerializeService;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Preview extends \Ves\PageBuilder\Block\Widget\AbstractWidget
@@ -79,7 +81,7 @@ class Preview extends \Ves\PageBuilder\Block\Widget\AbstractWidget
             $block_id = $blockprofile->getId();
             $code = $blockprofile->getAlias();
             $params = $blockprofile->getParams();
-            $params = \Zend_Json::decode($params);
+            $params = SerializeService::decode($params);
             $block_widgets = $blockprofile->getWidgets();
             $this->assign("block_id", "block-".$block_id." ".$code);
             $this->assign("layouts", $params);

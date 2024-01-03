@@ -6,6 +6,8 @@
  */
 namespace Ves\PageBuilder\Controller\Adminhtml\Pagebuilder;
 
+use Magento\Framework\Filter\FilterInput;
+
 class PostDataProcessor
 {
     /**
@@ -54,7 +56,7 @@ class PostDataProcessor
             }
         }
 
-        return (new \Zend_Filter_Input($filterRules, [], $data))->getUnescaped();
+        return (new FilterInput($filterRules, [], $data))->getUnescaped();
     }
 
     /**
@@ -65,7 +67,7 @@ class PostDataProcessor
      */
     public function filterOld($data)
     {
-        $inputFilter = new \Zend_Filter_Input(
+        $inputFilter = new FilterInput(
             ['custom_theme_from' => $this->dateFilter, 'custom_theme_to' => $this->dateFilter],
             [],
             $data
