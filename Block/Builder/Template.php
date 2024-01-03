@@ -22,6 +22,7 @@ namespace Ves\PageBuilder\Block\Builder;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Json\EncoderInterface;
+use Ves\PageBuilder\Helper\SerializeService;
 
 class Template extends \Magento\Framework\View\Element\Template
 {
@@ -142,7 +143,7 @@ class Template extends \Magento\Framework\View\Element\Template
     public function _toHtml() {
         if($this->_profile) {
             $params = $this->_profile->getParams();
-            $params = \Zend_Json::decode($params);
+            $params = SerializeService::decode($params);
 
             $block_widgets = $this->_profile->getWidgets();
 
