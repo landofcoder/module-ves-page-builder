@@ -84,19 +84,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
     protected $actionUrlBuilder;
     protected $_authSession;
     protected $_default_css_folder;
-
-    /**
-     * Construct
-     *
-     * @param \Magento\Framework\View\Element\Context $context
-     * @param \Magento\Cms\Model\Page $page
-     * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Framework\View\Page\Config $pageConfig
-     * @param array $data
-     */
-
+    protected $_objectManager;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context                   $context
@@ -159,8 +147,8 @@ class Livecss extends \Magento\Framework\View\Element\Template
         return $this->_filesystem->getDirectoryRead($path_type)->getAbsolutePath();
     }
 
-
-    public function getCssProfiles() {
+    public function getCssProfiles($pattern_folder_path = "")
+    {
         $output = array();
 
         $path = $this->getPubDirPath() .'pagebuilder'.DIRECTORY_SEPARATOR.'pattern'.DIRECTORY_SEPARATOR;
@@ -254,7 +242,8 @@ class Livecss extends \Magento\Framework\View\Element\Template
         return $output;
     }
 
-    public function getCustomizePath( $custom_css_folder_path = ""){
+    public function getCustomizePath( $custom_css_folder_path = "")
+    {
         $path = $this->getPubDirPath() .'pagebuilder'.DIRECTORY_SEPARATOR.'livecss'.DIRECTORY_SEPARATOR.'customize'.DIRECTORY_SEPARATOR;
 
         $this->_default_css_folder = "pagebuilder/livecss/customize";
@@ -273,7 +262,8 @@ class Livecss extends \Magento\Framework\View\Element\Template
     /**
      *
      */
-    public function getFileList( $path , $e=null, $filter_pattern = "" ) {
+    public function getFileList( $path , $e=null, $filter_pattern = "" )
+    {
         $output = array();
         $directories = glob( $path.'*'.$e );
         if($directories) {
@@ -291,14 +281,14 @@ class Livecss extends \Magento\Framework\View\Element\Template
             }
         }
 
-
         return $output;
     }
 
     /**
      *
      */
-    public function getPattern( $pattern_folder_path = "" ){
+    public function getPattern( $pattern_folder_path = "" )
+    {
         $output = array();
 
         $path = $this->getPubDirPath() .'pagebuilder'.DIRECTORY_SEPARATOR.'livecss'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'patterns'.DIRECTORY_SEPARATOR;
@@ -318,14 +308,17 @@ class Livecss extends \Magento\Framework\View\Element\Template
         }
         return $output;
     }
-    public function generatePageStyles() {
+
+    public function generatePageStyles()
+    {
 
         $css_code = "";
 
         return $css_code;
     }
 
-    public function isAllowCurrentIp() {
+    public function isAllowCurrentIp()
+    {
         $allowedIPsString = $this->getBlockHelper()->getConfig("general/allowedIPs", null, "", "veslivecss");
         $allowFrontendForAdmins = $this->getBlockHelper()->getConfig("general/allowFrontendForAdmins", null, "1", "veslivecss");
 
@@ -357,6 +350,7 @@ class Livecss extends \Magento\Framework\View\Element\Template
 
         return false;
     }
+
     /**
      * Retrieve admin session model
      *
@@ -369,7 +363,12 @@ class Livecss extends \Magento\Framework\View\Element\Template
         }
         return $this->_authSession;
     }
-    protected function _isAdminLoggedIn() {
+
+    /**
+     * @return bool
+     */
+    protected function _isAdminLoggedIn()
+    {
         $admin_session = $this->_getSession();
         if($admin_session) {
             if($admin_user = $admin_session->getUser()) {

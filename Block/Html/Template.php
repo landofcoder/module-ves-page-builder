@@ -28,6 +28,8 @@ class Template extends \Magento\Framework\View\Element\Template
      */
     protected $_dataHelper;
 
+    protected $_blockHelper;
+
     /**
      * Store manager
      *
@@ -52,6 +54,7 @@ class Template extends \Magento\Framework\View\Element\Template
     {
         return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
     }
+
     public function getBaseUrl()
     {
         return $this->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_WEB);
@@ -66,7 +69,8 @@ class Template extends \Magento\Framework\View\Element\Template
         );
     }
 
-    public function getBlockHelper() {
+    public function getBlockHelper()
+    {
         return $this->_blockHelper;
     }
 
