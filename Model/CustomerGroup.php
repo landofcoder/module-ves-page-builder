@@ -77,6 +77,8 @@ class CustomerGroup extends \Magento\Framework\Model\AbstractModel
      */
     protected $filterBuilder;
 
+    protected $_blockHelper;
+
     public function __construct (
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
